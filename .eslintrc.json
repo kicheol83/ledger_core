@@ -1,0 +1,49 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
+  "env": {
+    "node": true,
+    "es2022": true
+  },
+  "ignorePatterns": ["dist", "node_modules", "coverage", "*.js"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/explicit-function-return-type": ["warn", { "allowExpressions": true }],
+    "no-console": ["error", { "allow": ["warn", "error"] }]
+  },
+  "overrides": [
+    {
+      "files": ["apps/api/src/modules/*/domain/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "paths": [
+              {
+                "name": "pg",
+                "message": "The domain layer must not know about the database. Move this to infrastructure/."
+              },
+              {
+                "name": "@nestjs/common",
+                "message": "The domain layer must not depend on the framework. Keep it pure so it is testable without one."
+              },
+              {
+                "name": "@nestjs/core",
+                "message": "The domain layer must not depend on the framework."
+              }
+            ],
+            "patterns": [
+              {
+                "group": ["**/infrastructure/**", "**/api/**"],
+                "message": "Dependencies point inward: domain must not import from outer layers."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

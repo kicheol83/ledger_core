@@ -1,0 +1,53 @@
+{
+  "name": "ledgercore",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Double-entry ledger system with strong consistency guarantees",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "prepare": "husky",
+    "build": "pnpm -r build",
+    "test": "dotenv -e .env.test -- pnpm -r --workspace-concurrency=1 test",
+    "lint": "eslint . --max-warnings 0",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md,yml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,json,md,yml}\"",
+    "typecheck": "pnpm -r typecheck",
+    "commitlint": "commitlint",
+    "migrate": "dotenv -e .env -- node-pg-migrate -m db/migrations -j sql up",
+    "migrate:down": "dotenv -e .env -- node-pg-migrate -m db/migrations -j sql down 1",
+    "migrate:redo": "pnpm migrate:down && pnpm migrate",
+    "migrate:status": "dotenv -e .env -- node-pg-migrate -m db/migrations -j sql up --dry-run",
+    "migrate:create": "node-pg-migrate -m db/migrations -j sql create",
+    "migrate:test": "dotenv -e .env.test -- node-pg-migrate -m db/migrations -j sql up",
+    "db:reset": "docker compose down -v && docker compose up -d --wait && pnpm migrate"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix --max-warnings 0",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@types/node": "^22.7.0",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "dotenv-cli": "^7.4.2",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "node-pg-migrate": "^7.6.1",
+    "pg": "^8.13.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2"
+  }
+}
