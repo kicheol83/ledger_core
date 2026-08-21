@@ -1,0 +1,17 @@
+{
+  "name": "@ledgercore/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build": "echo 'no build step' && exit 0"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.10",
+    "pg": "^8.13.0",
+    "vitest": "^2.1.2"
+  }
+}
