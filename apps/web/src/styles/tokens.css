@@ -1,0 +1,56 @@
+:root {
+  --paper: #eaeee4; --paper-raised: #f4f6ef; --paper-sunken: #dfe4d7; --ink: #16211c; --ink-soft: #4b5a51; --ink-faint: #7d8a80; --rule: #c1cbb7; --rule-strong: #9aa791; --debit: #1b4d3e; --credit: #94272a; --system: #6b6a4c; --warn: #8a6d1f;
+  --fault: #94272a;
+
+  --font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-figure: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --size-caption: 0.6875rem;
+  --size-label: 0.75rem;
+  --size-body: 0.9375rem;
+  --size-figure: 1rem;
+  --size-heading: 1.125rem;
+  --size-display: 1.75rem;
+
+  --tracking-label: 0.08em;
+  --tracking-display: -0.01em;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius: 3px;
+  --radius-lg: 5px;
+
+  --border: 1px solid var(--rule);
+  --border-strong: 1px solid var(--rule-strong);
+
+  --lift: 0 1px 0 rgb(22 33 28 / 6%), 0 2px 8px rgb(22 33 28 / 5%);
+
+  --sidebar-width: 13rem;
+  --content-max: 68rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #141a16;
+    --paper-raised: #1b2220;
+    --paper-sunken: #101513;
+    --ink: #e3e8de;
+    --ink-soft: #a9b3a7;
+    --ink-faint: #7c877c;
+    --rule: #2b342e;
+    --rule-strong: #46514a;
+
+    --debit: #7fc0a4;
+    --credit: #e08a83;
+    --system: #b5b189;
+
+    --lift: 0 1px 0 rgb(0 0 0 / 30%), 0 2px 10px rgb(0 0 0 / 25%);
+  }
+}
