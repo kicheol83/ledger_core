@@ -1,0 +1,225 @@
+.segmented {
+  display: inline-flex;
+  border: var(--border-strong);
+  border-radius: var(--radius);
+  overflow: hidden;
+  align-self: flex-start;
+}
+
+.segmented__item {
+  padding: var(--space-2) var(--space-4);
+  background: var(--paper-raised);
+  border: none;
+  border-right: var(--border);
+  font-family: var(--font-display);
+  font-size: var(--size-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.segmented__item:last-child {
+  border-right: none;
+}
+
+.segmented__item--on {
+  background: var(--debit);
+  color: var(--paper-raised);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.field__error {
+  color: var(--fault);
+}
+
+.form__row {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.form__key {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  background: var(--paper-sunken);
+  border-radius: var(--radius);
+  border-left: 2px solid var(--credit);
+}
+
+.form__submit {
+  align-items: flex-end;
+}
+
+.form__submit .field {
+  max-width: 12rem;
+}
+
+.outcome-summary {
+  font-family: var(--font-display);
+  font-size: var(--size-heading);
+}
+
+.attempts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: var(--border);
+}
+
+.attempt {
+  display: grid;
+  grid-template-columns: 3rem 6rem 1fr auto;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border);
+  border-left: 2px solid transparent;
+}
+
+.attempt__ordinal {
+  color: var(--ink-faint);
+  font-size: var(--size-label);
+}
+
+.attempt__outcome {
+  font-family: var(--font-display);
+  font-size: var(--size-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.attempt--applied {
+  border-left-color: var(--debit);
+}
+
+.attempt--applied .attempt__outcome {
+  color: var(--debit);
+}
+
+.attempt--replayed {
+  border-left-color: var(--rule-strong);
+}
+
+.attempt--replayed .attempt__outcome {
+  color: var(--ink-faint);
+}
+
+.attempt--refused {
+  border-left-color: var(--warn);
+}
+
+.attempt--refused .attempt__outcome {
+  color: var(--warn);
+}
+
+.attempt--failed {
+  border-left-color: var(--fault);
+}
+
+.attempt--failed .attempt__outcome {
+  color: var(--fault);
+}
+
+.attempt__detail {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.attempt__timing {
+  color: var(--ink-faint);
+}
+
+.taccount {
+  margin: 0;
+  padding: var(--space-5);
+  background: var(--paper-raised);
+  border: var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.taccount__body {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  margin-top: var(--space-3);
+}
+
+.taccount__side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5);
+}
+
+.taccount__side--debit {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.taccount__side--credit {
+  align-items: flex-start;
+}
+
+.taccount__rule {
+  background: var(--rule-strong);
+}
+
+.taccount__amount {
+  font-size: var(--size-display);
+  font-weight: 500;
+  letter-spacing: var(--tracking-display);
+  line-height: 1.1;
+  word-break: break-all;
+}
+
+.taccount__side--debit .taccount__amount {
+  color: var(--debit);
+}
+
+.taccount__side--credit .taccount__amount {
+  color: var(--credit);
+}
+
+.taccount__sum {
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: var(--border-strong);
+  text-align: center;
+}
+
+@media (max-width: 40rem) {
+  .taccount__body {
+    grid-template-columns: 1fr;
+  }
+
+  .taccount__rule {
+    height: 1px;
+  }
+
+  .taccount__side--debit,
+  .taccount__side--credit {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .attempt {
+    grid-template-columns: 2.5rem 1fr;
+    row-gap: var(--space-1);
+  }
+}
