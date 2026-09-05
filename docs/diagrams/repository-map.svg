@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 1180" width="760" height="1180" font-family="'IBM Plex Mono', ui-monospace, monospace">
+  <defs>
+    <style>
+      .bg { fill: #eaeee4; }
+      .panel { fill: #f4f6ef; stroke: #c1cbb7; }
+      .dir { fill: #16211c; font-size: 13px; font-weight: 600; }
+      .file { fill: #4b5a51; font-size: 12.5px; }
+      .note { fill: #7d8a80; font-size: 11px; }
+      .rule { stroke: #c1cbb7; stroke-width: 1; }
+      .rule-strong { stroke: #9aa791; stroke-width: 1; }
+      .tick { stroke: #c1cbb7; stroke-width: 1; }
+      .hdr { fill: #16211c; font-size: 15px; font-weight: 600; letter-spacing: 0.04em; }
+      .debit { fill: #1b4d3e; }
+      .credit { fill: #94272a; }
+    </style>
+  </defs>
+
+  <rect class="bg" width="760" height="1180"/>
+
+  <rect x="0" y="0" width="760" height="52" fill="#f4f6ef"/>
+  <line class="rule-strong" x1="0" y1="52" x2="760" y2="52"/>
+  <rect class="debit" x="28" y="20" width="8" height="14"/>
+  <line class="rule-strong" x1="40" y1="16" x2="40" y2="38"/>
+  <rect class="credit" x="44" y="20" width="8" height="14"/>
+  <text class="hdr" x="64" y="32">ledgercore/ — repository layout</text>
+
+  <text class="dir" x="28" y="86">ledgercore/</text>
+
+  <line class="rule" x1="34" y1="92" x2="34" y2="1130"/>
+
+  <text class="dir" x="50" y="112">.github/</text>
+  <text class="note" x="330" y="112">CI: lint, types, tests on real Postgres</text>
+  <line class="tick" x1="34" y1="107" x2="46" y2="107"/>
+  <text class="file" x="66" y="132">workflows/ci.yml</text>
+  <text class="file" x="66" y="150">dependabot.yml · pull_request_template.md</text>
+
+  <text class="dir" x="50" y="182">apps/</text>
+  <line class="tick" x1="34" y1="177" x2="46" y2="177"/>
+
+  <rect class="panel" x="60" y="192" width="672" height="330" rx="5"/>
+  <text class="dir" x="76" y="214">api/  — NestJS service + outbox worker</text>
+  <line class="rule" x1="76" y1="224" x2="716" y2="224"/>
+
+  <text class="file" x="92" y="246">src/main.ts</text>
+  <text class="note" x="330" y="246">API entry point</text>
+  <text class="file" x="92" y="264">src/worker.ts</text>
+  <text class="note" x="330" y="264">worker entry point — separate process</text>
+
+  <text class="file" x="92" y="288">src/config/</text>
+  <text class="note" x="330" y="288">zod env schema, typed AppConfig</text>
+  <text class="file" x="92" y="306">src/shared/database/</text>
+  <text class="note" x="330" y="306">pool, TransactionManager, executor</text>
+  <text class="file" x="92" y="324">src/shared/errors/</text>
+  <text class="note" x="330" y="324">domain errors, pg translator, filter</text>
+  <text class="file" x="92" y="342">src/shared/money/</text>
+  <text class="note" x="330" y="342">bigint Money, currency registry</text>
+  <text class="file" x="92" y="360">src/shared/observability/</text>
+  <text class="note" x="330" y="360">request context, JSON logger</text>
+
+  <text class="file" x="92" y="388">src/modules/accounts/</text>
+  <text class="file" x="92" y="406">src/modules/ledger/</text>
+  <text class="file" x="92" y="424">src/modules/idempotency/</text>
+  <text class="file" x="92" y="442">src/modules/outbox/</text>
+  <text class="note" x="330" y="388">each module: domain / application /</text>
+  <text class="note" x="330" y="406">infrastructure / api</text>
+  <text class="note" x="330" y="424">domain layer cannot import pg or nest</text>
+  <text class="note" x="330" y="442">— enforced by an eslint rule in CI</text>
+
+  <line class="rule" x1="92" y1="458" x2="716" y2="458"/>
+  <text class="file" x="92" y="480">test/integration/</text>
+  <text class="note" x="330" y="480">real Postgres, no mocks</text>
+  <text class="file" x="92" y="498">test/concurrency/</text>
+  <text class="note" x="330" y="498">real parallel connections</text>
+
+  <rect class="panel" x="60" y="534" width="672" height="176" rx="5"/>
+  <text class="dir" x="76" y="556">web/  — React operations console</text>
+  <line class="rule" x1="76" y1="566" x2="716" y2="566"/>
+  <text class="file" x="92" y="588">src/styles/tokens.css</text>
+  <text class="note" x="330" y="588">ledger palette, type scale</text>
+  <text class="file" x="92" y="606">src/lib/money.ts</text>
+  <text class="note" x="330" y="606">string arithmetic only — never Number()</text>
+  <text class="file" x="92" y="624">src/lib/api.ts</text>
+  <text class="note" x="330" y="624">problem+json → typed ApiError</text>
+  <text class="file" x="92" y="642">src/components/Shell.tsx</text>
+  <text class="note" x="330" y="642">app frame, T-account mark</text>
+  <text class="file" x="92" y="660">src/routes/Accounts.tsx</text>
+  <text class="file" x="92" y="678">src/routes/Transfer.tsx</text>
+  <text class="note" x="330" y="660">balances + reconciliation strip</text>
+  <text class="note" x="330" y="678">idempotency demonstration</text>
+  <text class="file" x="92" y="696">src/routes/Journal.tsx · Delivery.tsx</text>
+
+  <rect class="panel" x="46" y="726" width="686" height="188" rx="5"/>
+  <text class="dir" x="62" y="748">db/  — the schema owns itself, not the API package</text>
+  <line class="rule" x1="62" y1="758" x2="716" y2="758"/>
+  <text class="file" x="78" y="780">migrations/1737000000000_enable-extensions.sql</text>
+  <text class="file" x="78" y="798">migrations/…100000_create-core-ledger-schema.sql</text>
+  <text class="file" x="78" y="816">migrations/…200000_enforce-double-entry-invariant.sql</text>
+  <text class="note" x="470" y="816">deferred triggers</text>
+  <text class="file" x="78" y="834">migrations/…300000_make-ledger-immutable.sql</text>
+  <text class="note" x="470" y="834">append-only guards</text>
+  <text class="file" x="78" y="852">migrations/…400000_create-idempotency-keys.sql</text>
+  <text class="file" x="78" y="870">migrations/…500000_create-outbox-events.sql</text>
+  <text class="file" x="78" y="888">migrations/…600000_partition-outbox-events.sql</text>
+  <text class="note" x="470" y="888">monthly partitions</text>
+
+  <text class="dir" x="50" y="940">db/seeds/ · db/test/</text>
+  <text class="note" x="330" y="940">system accounts, test helpers, schema tests</text>
+  <line class="tick" x1="34" y1="935" x2="46" y2="935"/>
+
+  <rect class="panel" x="46" y="956" width="686" height="128" rx="5"/>
+  <text class="dir" x="62" y="978">docs/</text>
+  <line class="rule" x1="62" y1="988" x2="716" y2="988"/>
+  <text class="file" x="78" y="1010">architecture.md</text>
+  <text class="note" x="330" y="1010">the one requirement everything follows from</text>
+  <text class="file" x="78" y="1028">adr/0001 … 0007</text>
+  <text class="note" x="330" y="1028">decisions, their costs, when to revisit</text>
+  <text class="file" x="78" y="1046">diagrams/</text>
+  <text class="note" x="330" y="1046">architecture, request lifecycle, this map</text>
+  <text class="file" x="78" y="1064">benchmarks/</text>
+  <text class="note" x="330" y="1064">before/after only — no laptop numbers</text>
+
+  <text class="dir" x="50" y="1108">load-tests/</text>
+  <text class="note" x="330" y="1108">baseline · hot-account · idempotency · mixed</text>
+  <line class="tick" x1="34" y1="1103" x2="46" y2="1103"/>
+
+  <text class="dir" x="50" y="1130">docker/ · Makefile · docker-compose.yml</text>
+  <line class="tick" x1="34" y1="1125" x2="46" y2="1125"/>
+</svg>

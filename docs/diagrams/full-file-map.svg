@@ -1,0 +1,479 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 2088.0" width="780" height="2088.0" font-family="'IBM Plex Mono', ui-monospace, monospace">
+<style>
+  .bg{fill:#eaeee4} .pane{fill:#f4f6ef;stroke:#c1cbb7}
+  .d{fill:#16211c;font-size:10.5px;font-weight:600}
+  .f{fill:#4b5a51;font-size:10px}
+  .sql{fill:#6b6a4c;font-size:10px}
+  .test{fill:#94272a;font-size:10px}
+  .doc{fill:#1b4d3e;font-size:10px}
+  .asset{fill:#7d8a80;font-size:10px}
+  .g{stroke:#c1cbb7;stroke-width:1}
+  .hdr{fill:#16211c;font-size:14px;font-weight:600;letter-spacing:.04em}
+  .key{font-size:10px}
+  .note{fill:#7d8a80;font-size:10px}
+</style>
+<rect class="bg" width="780" height="2088.0"/>
+<rect x="0" y="0" width="780" height="46" fill="#f4f6ef"/>
+<line x1="0" y1="46" x2="780" y2="46" stroke="#9aa791"/>
+<rect fill="#1b4d3e" x="24" y="17" width="7" height="12"/>
+<line x1="35" y1="14" x2="35" y2="32" stroke="#9aa791"/>
+<rect fill="#94272a" x="39" y="17" width="7" height="12"/>
+<text class="hdr" x="58" y="27">ledgercore/ — all 171 files</text>
+
+<g class="key">
+  <text class="d" x="26" y="66">directory</text>
+  <text class="f" x="112" y="66">source</text>
+  <text class="test" x="180" y="66">test</text>
+  <text class="sql" x="228" y="66">sql</text>
+  <text class="doc" x="272" y="66">docs</text>
+  <text class="asset" x="326" y="66">css / svg</text>
+  <text class="note" x="424" y="66">generated files are never shown here — see FILEMAP.md</text>
+</g>
+<line class="g" x1="24" y1="76" x2="756" y2="76"/>
+
+<rect class="pane" x="16" y="80" width="372" height="1944.0" rx="4"/>
+<rect class="pane" x="414" y="80" width="372" height="1711.5" rx="4"/>
+
+<text class="d" x="26" y="96.0">.github/</text>
+<text class="d" x="39" y="111.5">workflows/</text>
+<line class="g" x1="32" y1="107.5" x2="37" y2="107.5"/>
+<text class="f" x="52" y="127.0">ci.yml</text>
+<line class="g" x1="45" y1="123.0" x2="50" y2="123.0"/>
+<text class="f" x="39" y="142.5">dependabot.yml</text>
+<line class="g" x1="32" y1="138.5" x2="37" y2="138.5"/>
+<text class="doc" x="39" y="158.0">pull_request_template.md</text>
+<line class="g" x1="32" y1="154.0" x2="37" y2="154.0"/>
+<text class="d" x="26" y="173.5">.husky/</text>
+<text class="f" x="39" y="189.0">commit-msg</text>
+<line class="g" x1="32" y1="185.0" x2="37" y2="185.0"/>
+<text class="f" x="39" y="204.5">pre-commit</text>
+<line class="g" x1="32" y1="200.5" x2="37" y2="200.5"/>
+<text class="d" x="26" y="220.0">apps/</text>
+<text class="d" x="39" y="235.5">api/</text>
+<line class="g" x1="32" y1="231.5" x2="37" y2="231.5"/>
+<text class="d" x="52" y="251.0">src/</text>
+<line class="g" x1="45" y1="247.0" x2="50" y2="247.0"/>
+<text class="d" x="65" y="266.5">config/</text>
+<line class="g" x1="58" y1="262.5" x2="63" y2="262.5"/>
+<text class="test" x="78" y="282.0">app.config.spec.ts</text>
+<line class="g" x1="71" y1="278.0" x2="76" y2="278.0"/>
+<text class="f" x="78" y="297.5">app.config.ts</text>
+<line class="g" x1="71" y1="293.5" x2="76" y2="293.5"/>
+<text class="f" x="78" y="313.0">config.module.ts</text>
+<line class="g" x1="71" y1="309.0" x2="76" y2="309.0"/>
+<text class="test" x="78" y="328.5">env.validation.spec.ts</text>
+<line class="g" x1="71" y1="324.5" x2="76" y2="324.5"/>
+<text class="f" x="78" y="344.0">env.validation.ts</text>
+<line class="g" x1="71" y1="340.0" x2="76" y2="340.0"/>
+<text class="d" x="65" y="359.5">health/</text>
+<line class="g" x1="58" y1="355.5" x2="63" y2="355.5"/>
+<text class="f" x="78" y="375.0">health.controller.ts</text>
+<line class="g" x1="71" y1="371.0" x2="76" y2="371.0"/>
+<text class="f" x="78" y="390.5">readiness.controller.ts</text>
+<line class="g" x1="71" y1="386.5" x2="76" y2="386.5"/>
+<text class="d" x="65" y="406.0">modules/</text>
+<line class="g" x1="58" y1="402.0" x2="63" y2="402.0"/>
+<text class="d" x="78" y="421.5">accounts/</text>
+<line class="g" x1="71" y1="417.5" x2="76" y2="417.5"/>
+<text class="d" x="91" y="437.0">api/</text>
+<line class="g" x1="84" y1="433.0" x2="89" y2="433.0"/>
+<text class="f" x="104" y="452.5">account.controller.ts</text>
+<line class="g" x1="97" y1="448.5" x2="102" y2="448.5"/>
+<text class="f" x="104" y="468.0">account.dto.ts</text>
+<line class="g" x1="97" y1="464.0" x2="102" y2="464.0"/>
+<text class="d" x="91" y="483.5">application/</text>
+<line class="g" x1="84" y1="479.5" x2="89" y2="479.5"/>
+<text class="f" x="104" y="499.0">account.service.ts</text>
+<line class="g" x1="97" y1="495.0" x2="102" y2="495.0"/>
+<text class="d" x="91" y="514.5">domain/</text>
+<line class="g" x1="84" y1="510.5" x2="89" y2="510.5"/>
+<text class="test" x="104" y="530.0">account.spec.ts</text>
+<line class="g" x1="97" y1="526.0" x2="102" y2="526.0"/>
+<text class="f" x="104" y="545.5">account.ts</text>
+<line class="g" x1="97" y1="541.5" x2="102" y2="541.5"/>
+<text class="d" x="91" y="561.0">infrastructure/</text>
+<line class="g" x1="84" y1="557.0" x2="89" y2="557.0"/>
+<text class="f" x="104" y="576.5">account.repository.ts</text>
+<line class="g" x1="97" y1="572.5" x2="102" y2="572.5"/>
+<text class="f" x="91" y="592.0">accounts.module.ts</text>
+<line class="g" x1="84" y1="588.0" x2="89" y2="588.0"/>
+<text class="d" x="78" y="607.5">idempotency/</text>
+<line class="g" x1="71" y1="603.5" x2="76" y2="603.5"/>
+<text class="d" x="91" y="623.0">api/</text>
+<line class="g" x1="84" y1="619.0" x2="89" y2="619.0"/>
+<text class="f" x="104" y="638.5">idempotency.interceptor.ts</text>
+<line class="g" x1="97" y1="634.5" x2="102" y2="634.5"/>
+<text class="d" x="91" y="654.0">domain/</text>
+<line class="g" x1="84" y1="650.0" x2="89" y2="650.0"/>
+<text class="test" x="104" y="669.5">request-hash.spec.ts</text>
+<line class="g" x1="97" y1="665.5" x2="102" y2="665.5"/>
+<text class="f" x="104" y="685.0">request-hash.ts</text>
+<line class="g" x1="97" y1="681.0" x2="102" y2="681.0"/>
+<text class="d" x="91" y="700.5">infrastructure/</text>
+<line class="g" x1="84" y1="696.5" x2="89" y2="696.5"/>
+<text class="f" x="104" y="716.0">idempotency.repository.ts</text>
+<line class="g" x1="97" y1="712.0" x2="102" y2="712.0"/>
+<text class="f" x="91" y="731.5">idempotency.module.ts</text>
+<line class="g" x1="84" y1="727.5" x2="89" y2="727.5"/>
+<text class="d" x="78" y="747.0">ledger/</text>
+<line class="g" x1="71" y1="743.0" x2="76" y2="743.0"/>
+<text class="d" x="91" y="762.5">api/</text>
+<line class="g" x1="84" y1="758.5" x2="89" y2="758.5"/>
+<text class="f" x="104" y="778.0">balance.controller.ts</text>
+<line class="g" x1="97" y1="774.0" x2="102" y2="774.0"/>
+<text class="f" x="104" y="793.5">funding.controller.ts</text>
+<line class="g" x1="97" y1="789.5" x2="102" y2="789.5"/>
+<text class="f" x="104" y="809.0">reversal.controller.ts</text>
+<line class="g" x1="97" y1="805.0" x2="102" y2="805.0"/>
+<text class="f" x="104" y="824.5">transfer.controller.ts</text>
+<line class="g" x1="97" y1="820.5" x2="102" y2="820.5"/>
+<text class="d" x="91" y="840.0">application/</text>
+<line class="g" x1="84" y1="836.0" x2="89" y2="836.0"/>
+<text class="f" x="104" y="855.5">balance.service.ts</text>
+<line class="g" x1="97" y1="851.5" x2="102" y2="851.5"/>
+<text class="f" x="104" y="871.0">funding.service.ts</text>
+<line class="g" x1="97" y1="867.0" x2="102" y2="867.0"/>
+<text class="f" x="104" y="886.5">reversal.service.ts</text>
+<line class="g" x1="97" y1="882.5" x2="102" y2="882.5"/>
+<text class="f" x="104" y="902.0">transfer.service.ts</text>
+<line class="g" x1="97" y1="898.0" x2="102" y2="898.0"/>
+<text class="d" x="91" y="917.5">domain/</text>
+<line class="g" x1="84" y1="913.5" x2="89" y2="913.5"/>
+<text class="f" x="104" y="933.0">balance.ts</text>
+<line class="g" x1="97" y1="929.0" x2="102" y2="929.0"/>
+<text class="f" x="104" y="948.5">ledger-entry.ts</text>
+<line class="g" x1="97" y1="944.5" x2="102" y2="944.5"/>
+<text class="test" x="104" y="964.0">ledger.spec.ts</text>
+<line class="g" x1="97" y1="960.0" x2="102" y2="960.0"/>
+<text class="d" x="91" y="979.5">infrastructure/</text>
+<line class="g" x1="84" y1="975.5" x2="89" y2="975.5"/>
+<text class="f" x="104" y="995.0">balance.repository.ts</text>
+<line class="g" x1="97" y1="991.0" x2="102" y2="991.0"/>
+<text class="f" x="104" y="1010.5">transaction.repository.ts</text>
+<line class="g" x1="97" y1="1006.5" x2="102" y2="1006.5"/>
+<text class="f" x="91" y="1026.0">ledger.module.ts</text>
+<line class="g" x1="84" y1="1022.0" x2="89" y2="1022.0"/>
+<text class="d" x="78" y="1041.5">outbox/</text>
+<line class="g" x1="71" y1="1037.5" x2="76" y2="1037.5"/>
+<text class="d" x="91" y="1057.0">api/</text>
+<line class="g" x1="84" y1="1053.0" x2="89" y2="1053.0"/>
+<text class="f" x="104" y="1072.5">outbox.controller.ts</text>
+<line class="g" x1="97" y1="1068.5" x2="102" y2="1068.5"/>
+<text class="d" x="91" y="1088.0">application/</text>
+<line class="g" x1="84" y1="1084.0" x2="89" y2="1084.0"/>
+<text class="f" x="104" y="1103.5">outbox-worker.service.ts</text>
+<line class="g" x1="97" y1="1099.5" x2="102" y2="1099.5"/>
+<text class="f" x="104" y="1119.0">outbox.service.ts</text>
+<line class="g" x1="97" y1="1115.0" x2="102" y2="1115.0"/>
+<text class="d" x="91" y="1134.5">domain/</text>
+<line class="g" x1="84" y1="1130.5" x2="89" y2="1130.5"/>
+<text class="f" x="104" y="1150.0">event.ts</text>
+<line class="g" x1="97" y1="1146.0" x2="102" y2="1146.0"/>
+<text class="d" x="91" y="1165.5">infrastructure/</text>
+<line class="g" x1="84" y1="1161.5" x2="89" y2="1161.5"/>
+<text class="f" x="104" y="1181.0">outbox.repository.ts</text>
+<line class="g" x1="97" y1="1177.0" x2="102" y2="1177.0"/>
+<text class="test" x="104" y="1196.5">webhook.publisher.spec.ts</text>
+<line class="g" x1="97" y1="1192.5" x2="102" y2="1192.5"/>
+<text class="f" x="104" y="1212.0">webhook.publisher.ts</text>
+<line class="g" x1="97" y1="1208.0" x2="102" y2="1208.0"/>
+<text class="f" x="91" y="1227.5">outbox.module.ts</text>
+<line class="g" x1="84" y1="1223.5" x2="89" y2="1223.5"/>
+<text class="d" x="65" y="1243.0">shared/</text>
+<line class="g" x1="58" y1="1239.0" x2="63" y2="1239.0"/>
+<text class="d" x="78" y="1258.5">database/</text>
+<line class="g" x1="71" y1="1254.5" x2="76" y2="1254.5"/>
+<text class="f" x="91" y="1274.0">database.module.ts</text>
+<line class="g" x1="84" y1="1270.0" x2="89" y2="1270.0"/>
+<text class="f" x="91" y="1289.5">executor.ts</text>
+<line class="g" x1="84" y1="1285.5" x2="89" y2="1285.5"/>
+<text class="f" x="91" y="1305.0">pg-pool.provider.ts</text>
+<line class="g" x1="84" y1="1301.0" x2="89" y2="1301.0"/>
+<text class="f" x="91" y="1320.5">transaction.manager.ts</text>
+<line class="g" x1="84" y1="1316.5" x2="89" y2="1316.5"/>
+<text class="d" x="78" y="1336.0">errors/</text>
+<line class="g" x1="71" y1="1332.0" x2="76" y2="1332.0"/>
+<text class="f" x="91" y="1351.5">domain.error.ts</text>
+<line class="g" x1="84" y1="1347.5" x2="89" y2="1347.5"/>
+<text class="f" x="91" y="1367.0">error.filter.ts</text>
+<line class="g" x1="84" y1="1363.0" x2="89" y2="1363.0"/>
+<text class="test" x="91" y="1382.5">errors.spec.ts</text>
+<line class="g" x1="84" y1="1378.5" x2="89" y2="1378.5"/>
+<text class="f" x="91" y="1398.0">ledger.errors.ts</text>
+<line class="g" x1="84" y1="1394.0" x2="89" y2="1394.0"/>
+<text class="f" x="91" y="1413.5">postgres-error.translator.ts</text>
+<line class="g" x1="84" y1="1409.5" x2="89" y2="1409.5"/>
+<text class="d" x="78" y="1429.0">money/</text>
+<line class="g" x1="71" y1="1425.0" x2="76" y2="1425.0"/>
+<text class="f" x="91" y="1444.5">currency.ts</text>
+<line class="g" x1="84" y1="1440.5" x2="89" y2="1440.5"/>
+<text class="f" x="91" y="1460.0">index.ts</text>
+<line class="g" x1="84" y1="1456.0" x2="89" y2="1456.0"/>
+<text class="test" x="91" y="1475.5">money.spec.ts</text>
+<line class="g" x1="84" y1="1471.5" x2="89" y2="1471.5"/>
+<text class="f" x="91" y="1491.0">money.ts</text>
+<line class="g" x1="84" y1="1487.0" x2="89" y2="1487.0"/>
+<text class="d" x="78" y="1506.5">observability/</text>
+<line class="g" x1="71" y1="1502.5" x2="76" y2="1502.5"/>
+<text class="f" x="91" y="1522.0">observability.module.ts</text>
+<line class="g" x1="84" y1="1518.0" x2="89" y2="1518.0"/>
+<text class="test" x="91" y="1537.5">observability.spec.ts</text>
+<line class="g" x1="84" y1="1533.5" x2="89" y2="1533.5"/>
+<text class="f" x="91" y="1553.0">request-context.ts</text>
+<line class="g" x1="84" y1="1549.0" x2="89" y2="1549.0"/>
+<text class="f" x="91" y="1568.5">request-logging.middleware.ts</text>
+<line class="g" x1="84" y1="1564.5" x2="89" y2="1564.5"/>
+<text class="f" x="91" y="1584.0">structured-logger.ts</text>
+<line class="g" x1="84" y1="1580.0" x2="89" y2="1580.0"/>
+<text class="d" x="78" y="1599.5">validation/</text>
+<line class="g" x1="71" y1="1595.5" x2="76" y2="1595.5"/>
+<text class="f" x="91" y="1615.0">zod-validation.pipe.ts</text>
+<line class="g" x1="84" y1="1611.0" x2="89" y2="1611.0"/>
+<text class="f" x="65" y="1630.5">app.module.ts</text>
+<line class="g" x1="58" y1="1626.5" x2="63" y2="1626.5"/>
+<text class="f" x="65" y="1646.0">main.ts</text>
+<line class="g" x1="58" y1="1642.0" x2="63" y2="1642.0"/>
+<text class="f" x="65" y="1661.5">worker.ts</text>
+<line class="g" x1="58" y1="1657.5" x2="63" y2="1657.5"/>
+<text class="d" x="52" y="1677.0">test/</text>
+<line class="g" x1="45" y1="1673.0" x2="50" y2="1673.0"/>
+<text class="d" x="65" y="1692.5">concurrency/</text>
+<line class="g" x1="58" y1="1688.5" x2="63" y2="1688.5"/>
+<text class="test" x="78" y="1708.0">transfer-concurrency.test.ts</text>
+<line class="g" x1="71" y1="1704.0" x2="76" y2="1704.0"/>
+<text class="d" x="65" y="1723.5">integration/</text>
+<line class="g" x1="58" y1="1719.5" x2="63" y2="1719.5"/>
+<text class="test" x="78" y="1739.0">accounts.test.ts</text>
+<line class="g" x1="71" y1="1735.0" x2="76" y2="1735.0"/>
+<text class="test" x="78" y="1754.5">balance.test.ts</text>
+<line class="g" x1="71" y1="1750.5" x2="76" y2="1750.5"/>
+<text class="test" x="78" y="1770.0">error-filter.test.ts</text>
+<line class="g" x1="71" y1="1766.0" x2="76" y2="1766.0"/>
+<text class="test" x="78" y="1785.5">funding.test.ts</text>
+<line class="g" x1="71" y1="1781.5" x2="76" y2="1781.5"/>
+<text class="test" x="78" y="1801.0">idempotency.test.ts</text>
+<line class="g" x1="71" y1="1797.0" x2="76" y2="1797.0"/>
+<text class="test" x="78" y="1816.5">outbox-worker.test.ts</text>
+<line class="g" x1="71" y1="1812.5" x2="76" y2="1812.5"/>
+<text class="test" x="78" y="1832.0">outbox.test.ts</text>
+<line class="g" x1="71" y1="1828.0" x2="76" y2="1828.0"/>
+<text class="test" x="78" y="1847.5">partitioning.test.ts</text>
+<line class="g" x1="71" y1="1843.5" x2="76" y2="1843.5"/>
+<text class="test" x="78" y="1863.0">reversal.test.ts</text>
+<line class="g" x1="71" y1="1859.0" x2="76" y2="1859.0"/>
+<text class="test" x="78" y="1878.5">tracing.test.ts</text>
+<line class="g" x1="71" y1="1874.5" x2="76" y2="1874.5"/>
+<text class="test" x="78" y="1894.0">transaction-manager.test.ts</text>
+<line class="g" x1="71" y1="1890.0" x2="76" y2="1890.0"/>
+<text class="test" x="78" y="1909.5">transfer.test.ts</text>
+<line class="g" x1="71" y1="1905.5" x2="76" y2="1905.5"/>
+<text class="d" x="65" y="1925.0">setup/</text>
+<line class="g" x1="58" y1="1921.0" x2="63" y2="1921.0"/>
+<text class="f" x="78" y="1940.5">global-setup.ts</text>
+<line class="g" x1="71" y1="1936.5" x2="76" y2="1936.5"/>
+<text class="f" x="52" y="1956.0">nest-cli.json</text>
+<line class="g" x1="45" y1="1952.0" x2="50" y2="1952.0"/>
+<text class="f" x="52" y="1971.5">package.json</text>
+<line class="g" x1="45" y1="1967.5" x2="50" y2="1967.5"/>
+<text class="f" x="52" y="1987.0">tsconfig.json</text>
+<line class="g" x1="45" y1="1983.0" x2="50" y2="1983.0"/>
+<text class="f" x="52" y="2002.5">vitest.config.ts</text>
+<line class="g" x1="45" y1="1998.5" x2="50" y2="1998.5"/>
+<text class="d" x="437" y="96.0">web/</text>
+<line class="g" x1="430" y1="92.0" x2="435" y2="92.0"/>
+<text class="d" x="450" y="111.5">src/</text>
+<line class="g" x1="443" y1="107.5" x2="448" y2="107.5"/>
+<text class="d" x="463" y="127.0">components/</text>
+<line class="g" x1="456" y1="123.0" x2="461" y2="123.0"/>
+<text class="asset" x="476" y="142.5">Shell.css</text>
+<line class="g" x1="469" y1="138.5" x2="474" y2="138.5"/>
+<text class="f" x="476" y="158.0">Shell.tsx</text>
+<line class="g" x1="469" y1="154.0" x2="474" y2="154.0"/>
+<text class="asset" x="476" y="173.5">state.css</text>
+<line class="g" x1="469" y1="169.5" x2="474" y2="169.5"/>
+<text class="f" x="476" y="189.0">state.tsx</text>
+<line class="g" x1="469" y1="185.0" x2="474" y2="185.0"/>
+<text class="d" x="463" y="204.5">lib/</text>
+<line class="g" x1="456" y1="200.5" x2="461" y2="200.5"/>
+<text class="f" x="476" y="220.0">api.ts</text>
+<line class="g" x1="469" y1="216.0" x2="474" y2="216.0"/>
+<text class="test" x="476" y="235.5">money.spec.ts</text>
+<line class="g" x1="469" y1="231.5" x2="474" y2="231.5"/>
+<text class="f" x="476" y="251.0">money.ts</text>
+<line class="g" x1="469" y1="247.0" x2="474" y2="247.0"/>
+<text class="f" x="476" y="266.5">types.ts</text>
+<line class="g" x1="469" y1="262.5" x2="474" y2="262.5"/>
+<text class="f" x="476" y="282.0">useAsync.ts</text>
+<line class="g" x1="469" y1="278.0" x2="474" y2="278.0"/>
+<text class="d" x="463" y="297.5">routes/</text>
+<line class="g" x1="456" y1="293.5" x2="461" y2="293.5"/>
+<text class="asset" x="476" y="313.0">Accounts.css</text>
+<line class="g" x1="469" y1="309.0" x2="474" y2="309.0"/>
+<text class="f" x="476" y="328.5">Accounts.tsx</text>
+<line class="g" x1="469" y1="324.5" x2="474" y2="324.5"/>
+<text class="asset" x="476" y="344.0">Delivery.css</text>
+<line class="g" x1="469" y1="340.0" x2="474" y2="340.0"/>
+<text class="f" x="476" y="359.5">Delivery.tsx</text>
+<line class="g" x1="469" y1="355.5" x2="474" y2="355.5"/>
+<text class="asset" x="476" y="375.0">Journal.css</text>
+<line class="g" x1="469" y1="371.0" x2="474" y2="371.0"/>
+<text class="f" x="476" y="390.5">Journal.tsx</text>
+<line class="g" x1="469" y1="386.5" x2="474" y2="386.5"/>
+<text class="asset" x="476" y="406.0">Transfer.css</text>
+<line class="g" x1="469" y1="402.0" x2="474" y2="402.0"/>
+<text class="f" x="476" y="421.5">Transfer.tsx</text>
+<line class="g" x1="469" y1="417.5" x2="474" y2="417.5"/>
+<text class="d" x="463" y="437.0">styles/</text>
+<line class="g" x1="456" y1="433.0" x2="461" y2="433.0"/>
+<text class="asset" x="476" y="452.5">base.css</text>
+<line class="g" x1="469" y1="448.5" x2="474" y2="448.5"/>
+<text class="asset" x="476" y="468.0">tokens.css</text>
+<line class="g" x1="469" y1="464.0" x2="474" y2="464.0"/>
+<text class="f" x="463" y="483.5">App.tsx</text>
+<line class="g" x1="456" y1="479.5" x2="461" y2="479.5"/>
+<text class="f" x="463" y="499.0">main.tsx</text>
+<line class="g" x1="456" y1="495.0" x2="461" y2="495.0"/>
+<text class="asset" x="450" y="514.5">index.html</text>
+<line class="g" x1="443" y1="510.5" x2="448" y2="510.5"/>
+<text class="f" x="450" y="530.0">package.json</text>
+<line class="g" x1="443" y1="526.0" x2="448" y2="526.0"/>
+<text class="f" x="450" y="545.5">tsconfig.json</text>
+<line class="g" x1="443" y1="541.5" x2="448" y2="541.5"/>
+<text class="f" x="450" y="561.0">vite.config.ts</text>
+<line class="g" x1="443" y1="557.0" x2="448" y2="557.0"/>
+<text class="f" x="450" y="576.5">vitest.config.ts</text>
+<line class="g" x1="443" y1="572.5" x2="448" y2="572.5"/>
+<text class="d" x="424" y="592.0">db/</text>
+<text class="d" x="437" y="607.5">migrations/</text>
+<line class="g" x1="430" y1="603.5" x2="435" y2="603.5"/>
+<text class="sql" x="450" y="623.0">1737000000000_enable-extensions.sql</text>
+<line class="g" x1="443" y1="619.0" x2="448" y2="619.0"/>
+<text class="sql" x="450" y="638.5">1737000100000_create-core-ledger-schema.sql</text>
+<line class="g" x1="443" y1="634.5" x2="448" y2="634.5"/>
+<text class="sql" x="450" y="654.0">1737000200000_enforce-double-entry-invariant.sql</text>
+<line class="g" x1="443" y1="650.0" x2="448" y2="650.0"/>
+<text class="sql" x="450" y="669.5">1737000300000_make-ledger-immutable.sql</text>
+<line class="g" x1="443" y1="665.5" x2="448" y2="665.5"/>
+<text class="sql" x="450" y="685.0">1737000400000_create-idempotency-keys.sql</text>
+<line class="g" x1="443" y1="681.0" x2="448" y2="681.0"/>
+<text class="sql" x="450" y="700.5">1737000500000_create-outbox-events.sql</text>
+<line class="g" x1="443" y1="696.5" x2="448" y2="696.5"/>
+<text class="sql" x="450" y="716.0">1737000600000_partition-outbox-events.sql</text>
+<line class="g" x1="443" y1="712.0" x2="448" y2="712.0"/>
+<text class="d" x="437" y="731.5">seeds/</text>
+<line class="g" x1="430" y1="727.5" x2="435" y2="727.5"/>
+<text class="sql" x="450" y="747.0">01-system-accounts.sql</text>
+<line class="g" x1="443" y1="743.0" x2="448" y2="743.0"/>
+<text class="sql" x="450" y="762.5">99-test-helpers.sql</text>
+<line class="g" x1="443" y1="758.5" x2="448" y2="758.5"/>
+<text class="d" x="437" y="778.0">test/</text>
+<line class="g" x1="430" y1="774.0" x2="435" y2="774.0"/>
+<text class="d" x="450" y="793.5">invariants/</text>
+<line class="g" x1="443" y1="789.5" x2="448" y2="789.5"/>
+<text class="test" x="463" y="809.0">constraints.test.ts</text>
+<line class="g" x1="456" y1="805.0" x2="461" y2="805.0"/>
+<text class="test" x="463" y="824.5">double-entry.test.ts</text>
+<line class="g" x1="456" y1="820.5" x2="461" y2="820.5"/>
+<text class="test" x="463" y="840.0">immutability.test.ts</text>
+<line class="g" x1="456" y1="836.0" x2="461" y2="836.0"/>
+<text class="d" x="450" y="855.5">setup/</text>
+<line class="g" x1="443" y1="851.5" x2="448" y2="851.5"/>
+<text class="f" x="463" y="871.0">db.ts</text>
+<line class="g" x1="456" y1="867.0" x2="461" y2="867.0"/>
+<text class="f" x="463" y="886.5">fixtures.ts</text>
+<line class="g" x1="456" y1="882.5" x2="461" y2="882.5"/>
+<text class="f" x="463" y="902.0">global-setup.ts</text>
+<line class="g" x1="456" y1="898.0" x2="461" y2="898.0"/>
+<text class="f" x="463" y="917.5">per-file.ts</text>
+<line class="g" x1="456" y1="913.5" x2="461" y2="913.5"/>
+<text class="doc" x="437" y="933.0">README.md</text>
+<line class="g" x1="430" y1="929.0" x2="435" y2="929.0"/>
+<text class="f" x="437" y="948.5">package.json</text>
+<line class="g" x1="430" y1="944.5" x2="435" y2="944.5"/>
+<text class="f" x="437" y="964.0">tsconfig.json</text>
+<line class="g" x1="430" y1="960.0" x2="435" y2="960.0"/>
+<text class="f" x="437" y="979.5">vitest.config.ts</text>
+<line class="g" x1="430" y1="975.5" x2="435" y2="975.5"/>
+<text class="d" x="424" y="995.0">docker/</text>
+<text class="d" x="437" y="1010.5">postgres/</text>
+<line class="g" x1="430" y1="1006.5" x2="435" y2="1006.5"/>
+<text class="d" x="450" y="1026.0">init/</text>
+<line class="g" x1="443" y1="1022.0" x2="448" y2="1022.0"/>
+<text class="sql" x="463" y="1041.5">01-create-test-database.sql</text>
+<line class="g" x1="456" y1="1037.5" x2="461" y2="1037.5"/>
+<text class="f" x="450" y="1057.0">postgresql.dev.conf</text>
+<line class="g" x1="443" y1="1053.0" x2="448" y2="1053.0"/>
+<text class="d" x="424" y="1072.5">docs/</text>
+<text class="d" x="437" y="1088.0">adr/</text>
+<line class="g" x1="430" y1="1084.0" x2="435" y2="1084.0"/>
+<text class="doc" x="450" y="1103.5">0000-template.md</text>
+<line class="g" x1="443" y1="1099.5" x2="448" y2="1099.5"/>
+<text class="doc" x="450" y="1119.0">0001-monetary-values-as-bigint.md</text>
+<line class="g" x1="443" y1="1115.0" x2="448" y2="1115.0"/>
+<text class="doc" x="450" y="1134.5">0002-no-balance-column.md</text>
+<line class="g" x1="443" y1="1130.5" x2="448" y2="1130.5"/>
+<text class="doc" x="450" y="1150.0">0003-raw-sql-over-orm.md</text>
+<line class="g" x1="443" y1="1146.0" x2="448" y2="1146.0"/>
+<text class="doc" x="450" y="1165.5">0004-modular-monolith.md</text>
+<line class="g" x1="443" y1="1161.5" x2="448" y2="1161.5"/>
+<text class="doc" x="450" y="1181.0">0005-database-enforced-invariants.md</text>
+<line class="g" x1="443" y1="1177.0" x2="448" y2="1177.0"/>
+<text class="doc" x="450" y="1196.5">0006-locking-strategy.md</text>
+<line class="g" x1="443" y1="1192.5" x2="448" y2="1192.5"/>
+<text class="doc" x="450" y="1212.0">0007-partition-the-outbox.md</text>
+<line class="g" x1="443" y1="1208.0" x2="448" y2="1208.0"/>
+<text class="doc" x="450" y="1227.5">README.md</text>
+<line class="g" x1="443" y1="1223.5" x2="448" y2="1223.5"/>
+<text class="d" x="437" y="1243.0">benchmarks/</text>
+<line class="g" x1="430" y1="1239.0" x2="435" y2="1239.0"/>
+<text class="doc" x="450" y="1258.5">README.md</text>
+<line class="g" x1="443" y1="1254.5" x2="448" y2="1254.5"/>
+<text class="d" x="437" y="1274.0">diagrams/</text>
+<line class="g" x1="430" y1="1270.0" x2="435" y2="1270.0"/>
+<text class="asset" x="450" y="1289.5">architecture.mermaid</text>
+<line class="g" x1="443" y1="1285.5" x2="448" y2="1285.5"/>
+<text class="asset" x="450" y="1305.0">repository-map.svg</text>
+<line class="g" x1="443" y1="1301.0" x2="448" y2="1301.0"/>
+<text class="asset" x="450" y="1320.5">request-lifecycle.mermaid</text>
+<line class="g" x1="443" y1="1316.5" x2="448" y2="1316.5"/>
+<text class="asset" x="450" y="1336.0">setup-map.svg</text>
+<line class="g" x1="443" y1="1332.0" x2="448" y2="1332.0"/>
+<text class="doc" x="437" y="1351.5">architecture.md</text>
+<line class="g" x1="430" y1="1347.5" x2="435" y2="1347.5"/>
+<text class="d" x="424" y="1367.0">load-tests/</text>
+<text class="d" x="437" y="1382.5">lib/</text>
+<line class="g" x1="430" y1="1378.5" x2="435" y2="1378.5"/>
+<text class="f" x="450" y="1398.0">api.js</text>
+<line class="g" x1="443" y1="1394.0" x2="448" y2="1394.0"/>
+<text class="doc" x="437" y="1413.5">README.md</text>
+<line class="g" x1="430" y1="1409.5" x2="435" y2="1409.5"/>
+<text class="f" x="437" y="1429.0">baseline-transfers.js</text>
+<line class="g" x1="430" y1="1425.0" x2="435" y2="1425.0"/>
+<text class="f" x="437" y="1444.5">hot-account.js</text>
+<line class="g" x1="430" y1="1440.5" x2="435" y2="1440.5"/>
+<text class="f" x="437" y="1460.0">idempotency-storm.js</text>
+<line class="g" x1="430" y1="1456.0" x2="435" y2="1456.0"/>
+<text class="f" x="437" y="1475.5">mixed-workload.js</text>
+<line class="g" x1="430" y1="1471.5" x2="435" y2="1471.5"/>
+<text class="d" x="424" y="1491.0">packages/</text>
+<text class="d" x="437" y="1506.5">contracts/</text>
+<line class="g" x1="430" y1="1502.5" x2="435" y2="1502.5"/>
+<text class="f" x="450" y="1522.0">.gitkeep</text>
+<line class="g" x1="443" y1="1518.0" x2="448" y2="1518.0"/>
+<text class="f" x="424" y="1537.5">.editorconfig</text>
+<text class="f" x="424" y="1553.0">.env.example</text>
+<text class="f" x="424" y="1568.5">.env.test</text>
+<text class="f" x="424" y="1584.0">.eslintrc.json</text>
+<text class="f" x="424" y="1599.5">.gitignore</text>
+<text class="f" x="424" y="1615.0">.prettierrc</text>
+<text class="doc" x="424" y="1630.5">FILEMAP.md</text>
+<text class="f" x="424" y="1646.0">Makefile</text>
+<text class="doc" x="424" y="1661.5">README.md</text>
+<text class="doc" x="424" y="1677.0">SETUP.md</text>
+<text class="f" x="424" y="1692.5">bootstrap.sh</text>
+<text class="f" x="424" y="1708.0">commitlint.config.js</text>
+<text class="f" x="424" y="1723.5">docker-compose.yml</text>
+<text class="f" x="424" y="1739.0">package.json</text>
+<text class="f" x="424" y="1754.5">pnpm-workspace.yaml</text>
+<text class="f" x="424" y="1770.0">tsconfig.base.json</text>
+</svg>

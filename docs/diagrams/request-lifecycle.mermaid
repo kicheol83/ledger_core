@@ -1,0 +1,42 @@
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant I as Idempotency interceptor
+    participant L as TransferService
+    participant D as PostgreSQL
+    participant W as Outbox worker
+    participant E as Consumer
+
+    C->>I: POST /v1/transfers + Idempotency-Key
+    I->>D: BEGIN
+    I->>D: INSERT idempotency_keys ... ON CONFLICT DO NOTHING
+
+    alt key already exists
+        D-->>I: 0 rows (blocks until the original commits)
+        I->>D: SELECT stored response
+        I-->>C: 201 + Idempotent-Replay: true
+    else key claimed
+        I->>L: run handler inside the same transaction
+        L->>D: SELECT accounts WHERE id = ANY(...) ORDER BY id FOR UPDATE
+        Note over L,D: ascending id order — no A→B / B→A deadlock
+        L->>D: SUM entries for both accounts (index-only)
+        Note over L: balance check happens under the lock
+        L->>D: INSERT transactions
+        L->>D: INSERT ledger_entries (both sides)
+        L->>D: INSERT outbox_events
+        I->>D: UPDATE idempotency_keys SET response
+        I->>D: COMMIT
+        Note over D: deferred triggers validate the entry set here
+        I-->>C: 201 + balances
+    end
+
+    W->>D: lease due events (FOR UPDATE SKIP LOCKED), COMMIT
+    Note over W,D: no transaction is held open across the network call
+    W->>E: POST webhook, HMAC signed
+    alt delivered
+        W->>D: mark PUBLISHED
+    else transient failure
+        W->>D: attempts + 1, next_attempt_at += jittered backoff
+    else 4xx or attempts exhausted
+        W->>D: mark FAILED — dead letter, never auto-deleted
+    end

@@ -1,0 +1,60 @@
+flowchart TB
+    subgraph client["Client"]
+        WEB["Operations console<br/>React + Vite"]
+        EXT["External callers<br/>Idempotency-Key required"]
+    end
+
+    subgraph api["API process — apps/api"]
+        MW["Request middleware<br/>request id, structured logs"]
+        IDEM["Idempotency interceptor<br/>opens the transaction"]
+        subgraph modules["Modules"]
+            ACC["accounts<br/>users, accounts, status"]
+            LED["ledger<br/>transfer, funding, reversal, balances"]
+            OUT["outbox<br/>emit"]
+        end
+        TXM["TransactionManager<br/>AsyncLocalStorage + retry"]
+    end
+
+    subgraph worker["Worker process — same codebase"]
+        POLL["Lease due events<br/>FOR UPDATE SKIP LOCKED"]
+        PUB["Webhook publisher<br/>HMAC signed, timeout, backoff"]
+    end
+
+    subgraph pg["PostgreSQL 16"]
+        direction TB
+        T1["accounts / users"]
+        T2["transactions"]
+        T3["ledger_entries<br/>append-only, immutable"]
+        T4["idempotency_keys"]
+        T5["outbox_events<br/>partitioned by month"]
+        TRG{{"Deferred constraint triggers<br/>fire at COMMIT"}}
+    end
+
+    CONSUMER["Consumer endpoint<br/>must be idempotent"]
+
+    WEB --> MW
+    EXT --> MW
+    MW --> IDEM
+    IDEM --> LED
+    IDEM --> ACC
+    LED --> ACC
+    LED --> OUT
+    LED --> TXM
+    ACC --> TXM
+    OUT --> TXM
+
+    TXM -->|"one transaction:<br/>entries + key + event"| pg
+    T3 -.-> TRG
+    T2 -.-> TRG
+
+    pg --> POLL
+    POLL --> PUB
+    PUB --> CONSUMER
+    PUB -->|"mark published / retry / dead letter"| T5
+
+    classDef proc fill:#eef3ea,stroke:#6f7f6c,color:#16211c
+    classDef store fill:#f3efe4,stroke:#8a7f66,color:#16211c
+    classDef guard fill:#f7e9e6,stroke:#94272a,color:#16211c
+    class WEB,EXT,MW,IDEM,ACC,LED,OUT,TXM,POLL,PUB,CONSUMER proc
+    class T1,T2,T3,T4,T5 store
+    class TRG guard
