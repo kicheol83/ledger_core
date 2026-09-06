@@ -1,5 +1,5 @@
 import type { PoolClient } from 'pg';
-import { query } from './db.js';
+import { query } from './db';
 
 let sequence = 0;
 

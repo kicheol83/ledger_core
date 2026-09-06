@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import type { Money } from '../../../shared/money/index.js';
-import { AccountService } from '../../accounts/application/account.service.js';
-import type { Balance } from '../domain/balance.js';
-import { BalanceRepository } from '../infrastructure/balance.repository.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import type { Money } from '../../../shared/money/index';
+import { AccountService } from '../../accounts/application/account.service';
+import type { Balance } from '../domain/balance';
+import { BalanceRepository } from '../infrastructure/balance.repository';
 
 @Injectable()
 export class BalanceService {

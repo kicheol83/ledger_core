@@ -1,8 +1,8 @@
 import { Inject, Injectable, Logger, type OnApplicationShutdown } from '@nestjs/common';
-import { AppConfig } from '../../../config/app.config.js';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository.js';
-import { DeliveryError, WebhookPublisher } from '../infrastructure/webhook.publisher.js';
+import { AppConfig } from '../../../config/app.config';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository';
+import { DeliveryError, WebhookPublisher } from '../infrastructure/webhook.publisher';
 
 export const EVENT_PUBLISHER = Symbol('EVENT_PUBLISHER');
 

@@ -1,5 +1,5 @@
 import { Module, type MiddlewareConsumer, type NestModule } from '@nestjs/common';
-import { RequestLoggingMiddleware } from './request-logging.middleware.js';
+import { RequestLoggingMiddleware } from './request-logging.middleware';
 
 @Module({
   providers: [RequestLoggingMiddleware],

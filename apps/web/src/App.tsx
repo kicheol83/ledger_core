@@ -1,9 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Shell } from './components/Shell.js';
-import { Accounts } from './routes/Accounts.js';
-import { Delivery } from './routes/Delivery.js';
-import { Journal } from './routes/Journal.js';
-import { Transfer } from './routes/Transfer.js';
+import { Shell } from './components/Shell';
+import { Accounts } from './routes/Accounts';
+import { Delivery } from './routes/Delivery';
+import { Journal } from './routes/Journal';
+import { Transfer } from './routes/Transfer';
 
 export function App(): JSX.Element {
   return (

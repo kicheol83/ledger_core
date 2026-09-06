@@ -1,8 +1,8 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { z } from 'zod';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe.js';
-import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe';
+import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository';
 
 const listQuery = z
   .object({

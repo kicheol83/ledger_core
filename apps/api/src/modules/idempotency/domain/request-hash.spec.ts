@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { canonicalise, hashRequest } from './request-hash.js';
+import { canonicalise, hashRequest } from './request-hash';
 
 describe('canonicalise', () => {
   it('sorts object keys', () => {

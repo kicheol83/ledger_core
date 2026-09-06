@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { query, withClient } from '../setup/db.js';
-import { balanceOf, createAccount, transfer, writeTransaction } from '../setup/fixtures.js';
+import { query, withClient } from '../setup/db';
+import { balanceOf, createAccount, transfer, writeTransaction } from '../setup/fixtures';
 
 async function committedTransfer(amount = 5_000n): Promise<{
   transactionId: string;

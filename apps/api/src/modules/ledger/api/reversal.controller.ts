@@ -1,8 +1,8 @@
 import { Body, Controller, Param, Post, UseInterceptors } from '@nestjs/common';
 import { z } from 'zod';
-import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe.js';
-import { IdempotencyInterceptor } from '../../idempotency/api/idempotency.interceptor.js';
-import { ReversalService } from '../application/reversal.service.js';
+import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe';
+import { IdempotencyInterceptor } from '../../idempotency/api/idempotency.interceptor';
+import { ReversalService } from '../application/reversal.service';
 
 const transactionIdParam = z.object({ id: z.string().uuid() }).strict();
 

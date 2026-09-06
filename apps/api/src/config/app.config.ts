@@ -1,4 +1,4 @@
-import type { Env } from './env.validation.js';
+import type { Env } from './env.validation';
 
 export class AppConfig {
   constructor(private readonly env: Env) {}

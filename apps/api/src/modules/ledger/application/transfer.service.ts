@@ -1,21 +1,21 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
 import {
   AccountNotActiveError,
   AccountNotFoundError,
   CurrencyMismatchError,
   SameAccountTransferError,
-} from '../../../shared/errors/ledger.errors.js';
-import { Money } from '../../../shared/money/index.js';
-import { Balance } from '../domain/balance.js';
-import { simpleTransfer, type BalancedEntries } from '../domain/ledger-entry.js';
-import { OutboxService } from '../../outbox/application/outbox.service.js';
-import { BalanceRepository } from '../infrastructure/balance.repository.js';
+} from '../../../shared/errors/ledger.errors';
+import { Money } from '../../../shared/money/index';
+import { Balance } from '../domain/balance';
+import { simpleTransfer, type BalancedEntries } from '../domain/ledger-entry';
+import { OutboxService } from '../../outbox/application/outbox.service';
+import { BalanceRepository } from '../infrastructure/balance.repository';
 import {
   TransactionRepository,
   type LockedAccount,
   type PersistedTransaction,
-} from '../infrastructure/transaction.repository.js';
+} from '../infrastructure/transaction.repository';
 
 export interface TransferCommand {
   fromAccountId: string;

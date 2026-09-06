@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, Inject, Res } from '@nestjs/common';
 import type { Response } from 'express';
 import type { Pool } from 'pg';
-import { PG_POOL } from '../shared/database/executor.js';
+import { PG_POOL } from '../shared/database/executor';
 
 interface ReadinessReport {
   status: 'ready' | 'not_ready';

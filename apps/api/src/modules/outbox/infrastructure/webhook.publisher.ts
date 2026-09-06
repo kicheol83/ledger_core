@@ -1,7 +1,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { Injectable, Logger } from '@nestjs/common';
-import { AppConfig } from '../../../config/app.config.js';
-import type { OutboxEvent } from './outbox.repository.js';
+import { AppConfig } from '../../../config/app.config';
+import type { OutboxEvent } from './outbox.repository';
 
 export class DeliveryError extends Error {
   constructor(

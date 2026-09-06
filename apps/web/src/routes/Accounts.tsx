@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Empty, Failure, Loading } from '../components/state.js';
-import { ApiError, get, post } from '../lib/api.js';
-import { formatAmount, isNegative, isZero, shortId } from '../lib/money.js';
-import type { Account, Balance, Reconciliation } from '../lib/types.js';
-import { useAsync } from '../lib/useAsync.js';
+import { Empty, Failure, Loading } from '../components/state';
+import { ApiError, get, post } from '../lib/api';
+import { formatAmount, isNegative, isZero, shortId } from '../lib/money';
+import type { Account, Balance, Reconciliation } from '../lib/types';
+import { useAsync } from '../lib/useAsync';
 import './Accounts.css';
 
 const CURRENCIES = ['UZS', 'KRW', 'USD', 'EUR', 'JPY'];

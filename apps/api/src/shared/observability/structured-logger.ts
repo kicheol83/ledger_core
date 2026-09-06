@@ -1,5 +1,5 @@
 import type { LoggerService, LogLevel } from '@nestjs/common';
-import { currentRequestId } from './request-context.js';
+import { currentRequestId } from './request-context';
 
 type Level = 'error' | 'warn' | 'info' | 'debug' | 'trace';
 

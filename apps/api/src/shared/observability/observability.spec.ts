@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
-import { currentRequestId, resolveRequestId, runWithRequestContext } from './request-context.js';
-import { redact, StructuredLogger } from './structured-logger.js';
+import { currentRequestId, resolveRequestId, runWithRequestContext } from './request-context';
+import { redact, StructuredLogger } from './structured-logger';
 
 describe('resolveRequestId', () => {
   it('reuses a well-formed inbound id', () => {

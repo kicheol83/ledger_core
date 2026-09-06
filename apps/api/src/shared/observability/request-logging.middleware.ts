@@ -1,6 +1,6 @@
 import { Injectable, Logger, type NestMiddleware } from '@nestjs/common';
 import type { NextFunction, Request, Response } from 'express';
-import { resolveRequestId, runWithRequestContext } from './request-context.js';
+import { resolveRequestId, runWithRequestContext } from './request-context';
 
 @Injectable()
 export class RequestLoggingMiddleware implements NestMiddleware {

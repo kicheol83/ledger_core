@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { Money } from '../../../shared/money/index.js';
-import { Balance } from '../domain/balance.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { Money } from '../../../shared/money/index';
+import { Balance } from '../domain/balance';
 
 interface BalanceRow {
   account_id: string;

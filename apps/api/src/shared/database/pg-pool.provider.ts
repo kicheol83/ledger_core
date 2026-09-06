@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import pg, { type Pool, type PoolConfig } from 'pg';
-import type { AppConfig } from '../../config/app.config.js';
+import type { AppConfig } from '../../config/app.config';
 
 const { Pool: PgPool, types } = pg;
 

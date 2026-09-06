@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppConfig } from '../../config/app.config.js';
-import { EVENT_PUBLISHER, OutboxWorker } from './application/outbox-worker.service.js';
-import { OutboxService } from './application/outbox.service.js';
-import { OutboxController } from './api/outbox.controller.js';
-import { OutboxRepository } from './infrastructure/outbox.repository.js';
-import { WebhookPublisher } from './infrastructure/webhook.publisher.js';
+import { AppConfig } from '../../config/app.config';
+import { EVENT_PUBLISHER, OutboxWorker } from './application/outbox-worker.service';
+import { OutboxService } from './application/outbox.service';
+import { OutboxController } from './api/outbox.controller';
+import { OutboxRepository } from './infrastructure/outbox.repository';
+import { WebhookPublisher } from './infrastructure/webhook.publisher';
 
 @Module({
   controllers: [OutboxController],

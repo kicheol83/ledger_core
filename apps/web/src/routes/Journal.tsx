@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Empty, Failure, Loading } from '../components/state.js';
-import { ApiError, get, post } from '../lib/api.js';
-import { formatAmount, formatTimestamp, shortId, sumMinorUnits } from '../lib/money.js';
-import type { HistoryEntry, Transaction } from '../lib/types.js';
-import { useAsync } from '../lib/useAsync.js';
+import { Empty, Failure, Loading } from '../components/state';
+import { ApiError, get, post } from '../lib/api';
+import { formatAmount, formatTimestamp, shortId, sumMinorUnits } from '../lib/money';
+import type { HistoryEntry, Transaction } from '../lib/types';
+import { useAsync } from '../lib/useAsync';
 import './Journal.css';
 
 const PAGE_SIZE = 25;

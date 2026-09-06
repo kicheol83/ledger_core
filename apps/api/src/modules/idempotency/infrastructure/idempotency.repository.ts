@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
 
 export interface IdempotencyRecord {
   key: string;

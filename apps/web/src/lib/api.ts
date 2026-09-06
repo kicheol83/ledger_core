@@ -34,6 +34,24 @@ export class ApiError extends Error {
   }
 }
 
+function toProblem(body: unknown, status: number): ProblemDetails {
+  if (body !== null && typeof body === 'object' && 'code' in body && 'detail' in body) {
+    return body as ProblemDetails;
+  }
+
+  return {
+    type: 'about:blank',
+    title: 'Request failed',
+    status,
+    detail:
+      status === 0
+        ? 'The API did not respond.'
+        : `The API returned ${status} with no problem document. It may be starting, or it crashed before it could answer.`,
+    code: status >= 500 ? 'UPSTREAM_ERROR' : 'REQUEST_FAILED',
+    retryable: status >= 500 || status === 0,
+  };
+}
+
 async function parse(response: Response): Promise<unknown> {
   const text = await response.text();
 
@@ -76,7 +94,7 @@ async function send<T>(path: string, init: RequestInit = {}): Promise<T> {
   const body = await parse(response);
 
   if (!response.ok) {
-    throw new ApiError(body as ProblemDetails);
+    throw new ApiError(toProblem(body, response.status));
   }
 
   return body as T;
@@ -125,7 +143,7 @@ export async function postWithMeta<T>(
   const parsed = await parse(response);
 
   if (!response.ok) {
-    throw new ApiError(parsed as ProblemDetails);
+    throw new ApiError(toProblem(parsed, response.status));
   }
 
   return {

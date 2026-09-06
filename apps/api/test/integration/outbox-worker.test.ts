@@ -4,16 +4,16 @@ import { randomUUID } from 'node:crypto';
 import type { Pool } from 'pg';
 import request from 'supertest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
-import { AppModule } from '../../src/app.module.js';
+import { AppModule } from '../../src/app.module';
 import {
   backoffFor,
   EVENT_PUBLISHER,
   OutboxWorker,
-} from '../../src/modules/outbox/application/outbox-worker.service.js';
-import { DeliveryError } from '../../src/modules/outbox/infrastructure/webhook.publisher.js';
-import { OutboxModule } from '../../src/modules/outbox/outbox.module.js';
-import { PG_POOL } from '../../src/shared/database/executor.js';
-import { DomainExceptionFilter } from '../../src/shared/errors/error.filter.js';
+} from '../../src/modules/outbox/application/outbox-worker.service';
+import { DeliveryError } from '../../src/modules/outbox/infrastructure/webhook.publisher';
+import { OutboxModule } from '../../src/modules/outbox/outbox.module';
+import { PG_POOL } from '../../src/shared/database/executor';
+import { DomainExceptionFilter } from '../../src/shared/errors/error.filter';
 
 class StubPublisher {
   readonly delivered: string[] = [];

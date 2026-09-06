@@ -3,8 +3,8 @@ import {
   eventTypeForTransaction,
   transactionEventPayload,
   type OutboxEventInput,
-} from '../domain/event.js';
-import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository.js';
+} from '../domain/event';
+import { OutboxRepository, type OutboxEvent } from '../infrastructure/outbox.repository';
 
 export interface TransactionEventInput {
   transactionId: string;

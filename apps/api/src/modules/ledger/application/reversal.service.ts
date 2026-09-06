@@ -1,19 +1,19 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
 import {
   AlreadyReversedError,
   InsufficientFundsError,
   TransactionNotFoundError,
   TransactionNotReversibleError,
-} from '../../../shared/errors/ledger.errors.js';
-import { Money } from '../../../shared/money/index.js';
-import { BalancedEntries, type LedgerEntry } from '../domain/ledger-entry.js';
-import { OutboxService } from '../../outbox/application/outbox.service.js';
-import { BalanceRepository } from '../infrastructure/balance.repository.js';
+} from '../../../shared/errors/ledger.errors';
+import { Money } from '../../../shared/money/index';
+import { BalancedEntries, type LedgerEntry } from '../domain/ledger-entry';
+import { OutboxService } from '../../outbox/application/outbox.service';
+import { BalanceRepository } from '../infrastructure/balance.repository';
 import {
   TransactionRepository,
   type PersistedTransaction,
-} from '../infrastructure/transaction.repository.js';
+} from '../infrastructure/transaction.repository';
 
 @Injectable()
 export class ReversalService {

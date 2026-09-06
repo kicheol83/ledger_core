@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AccountNotActiveError } from '../../../shared/errors/ledger.errors.js';
-import { Account, type AccountProps } from './account.js';
+import { AccountNotActiveError } from '../../../shared/errors/ledger.errors';
+import { Account, type AccountProps } from './account';
 
 function account(overrides: Partial<AccountProps> = {}): Account {
   return Account.fromPersistence({

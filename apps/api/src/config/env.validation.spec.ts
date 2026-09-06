@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { EnvValidationError, validateEnv } from './env.validation.js';
+import { EnvValidationError, validateEnv } from './env.validation';
 
 const valid = {
   DATABASE_URL: 'postgres://ledger:secret@localhost:5432/ledgercore',

@@ -1,4 +1,4 @@
-import { AccountNotActiveError } from '../../../shared/errors/ledger.errors.js';
+import { AccountNotActiveError } from '../../../shared/errors/ledger.errors';
 
 export const ACCOUNT_TYPES = ['USER', 'SYSTEM'] as const;
 export const ACCOUNT_STATUSES = ['ACTIVE', 'FROZEN', 'CLOSED'] as const;
