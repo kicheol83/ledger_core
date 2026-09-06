@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { CurrencyMismatchError } from '../errors/ledger.errors.js';
-import { UnknownCurrencyError } from './currency.js';
-import { InvalidMoneyError, Money } from './money.js';
+import { CurrencyMismatchError } from '../errors/ledger.errors';
+import { UnknownCurrencyError } from './currency';
+import { InvalidMoneyError, Money } from './money';
 
 const uzs = (amount: bigint): Money => Money.fromMinorUnits(amount, 'UZS');
 const krw = (amount: bigint): Money => Money.fromMinorUnits(amount, 'KRW');

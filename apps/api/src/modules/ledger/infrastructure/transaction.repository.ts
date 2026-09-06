@@ -1,12 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { Money } from '../../../shared/money/index.js';
-import type { AccountStatus } from '../../accounts/domain/account.js';
-import type {
-  BalancedEntries,
-  TransactionStatus,
-  TransactionType,
-} from '../domain/ledger-entry.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { Money } from '../../../shared/money/index';
+import type { AccountStatus } from '../../accounts/domain/account';
+import type { BalancedEntries, TransactionStatus, TransactionType } from '../domain/ledger-entry';
 
 export interface LockedAccount {
   id: string;

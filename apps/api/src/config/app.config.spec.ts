@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { AppConfig } from './app.config.js';
-import { validateEnv } from './env.validation.js';
+import { AppConfig } from './app.config';
+import { validateEnv } from './env.validation';
 
 function configFrom(overrides: NodeJS.ProcessEnv = {}): AppConfig {
   return new AppConfig(

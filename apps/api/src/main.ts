@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Logger, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module.js';
-import { AppConfig } from './config/app.config.js';
-import { DomainExceptionFilter } from './shared/errors/error.filter.js';
-import { StructuredLogger } from './shared/observability/structured-logger.js';
+import { AppModule } from './app.module';
+import { AppConfig } from './config/app.config';
+import { DomainExceptionFilter } from './shared/errors/error.filter';
+import { StructuredLogger } from './shared/observability/structured-logger';
 
 async function bootstrap(): Promise<void> {
   const logger = new Logger('bootstrap');

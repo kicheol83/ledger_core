@@ -1,9 +1,9 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import pg from 'pg';
-import { AppConfig } from '../../src/config/app.config.js';
-import { validateEnv } from '../../src/config/env.validation.js';
-import { createPool } from '../../src/shared/database/pg-pool.provider.js';
-import { TransactionManager } from '../../src/shared/database/transaction.manager.js';
+import { AppConfig } from '../../src/config/app.config';
+import { validateEnv } from '../../src/config/env.validation';
+import { createPool } from '../../src/shared/database/pg-pool.provider';
+import { TransactionManager } from '../../src/shared/database/transaction.manager';
 
 const config = new AppConfig(validateEnv(process.env));
 const pool = createPool(config);

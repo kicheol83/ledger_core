@@ -10,7 +10,7 @@ import {
   sumMinorUnits,
   toDecimal,
   toMinorUnits,
-} from './money.js';
+} from './money';
 
 describe('toDecimal', () => {
   it('scales by the currency exponent', () => {

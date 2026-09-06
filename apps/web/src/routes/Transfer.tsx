@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { ApiError, newIdempotencyKey, postWithMeta } from '../lib/api.js';
-import { AmountError, formatAmount, formatMoney, shortId, toMinorUnits } from '../lib/money.js';
+import { ApiError, newIdempotencyKey, postWithMeta } from '../lib/api';
+import { AmountError, formatAmount, formatMoney, shortId, toMinorUnits } from '../lib/money';
 import './Transfer.css';
 
 type Operation = 'transfer' | 'deposit' | 'withdraw';

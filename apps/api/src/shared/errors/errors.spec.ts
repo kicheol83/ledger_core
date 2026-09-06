@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ConcurrencyError, DomainError } from './domain.error.js';
+import { ConcurrencyError, DomainError } from './domain.error';
 import {
   AccountNotFoundError,
   AlreadyReversedError,
@@ -7,8 +7,8 @@ import {
   IdempotentRequestInFlightError,
   InsufficientFundsError,
   LedgerInvariantViolationError,
-} from './ledger.errors.js';
-import { translatePostgresError } from './postgres-error.translator.js';
+} from './ledger.errors';
+import { translatePostgresError } from './postgres-error.translator';
 
 function pgError(code: string, extra: Record<string, unknown> = {}): Error {
   return Object.assign(new Error('postgres said no'), { code, ...extra });

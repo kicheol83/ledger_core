@@ -1,7 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { z } from 'zod';
-import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe.js';
-import { BalanceService } from '../application/balance.service.js';
+import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe';
+import { BalanceService } from '../application/balance.service';
 
 const accountIdParam = z.object({ id: z.string().uuid() }).strict();
 

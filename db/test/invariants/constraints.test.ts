@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { query, withClient } from '../setup/db.js';
+import { query, withClient } from '../setup/db';
 import {
   createAccount,
   createSystemAccount,
   createUser,
   transfer,
   writeTransaction,
-} from '../setup/fixtures.js';
+} from '../setup/fixtures';
 
 describe('schema constraints', () => {
   describe('users', () => {

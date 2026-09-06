@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { currencyCodes } from '../../../shared/money/index.js';
-import type { Account } from '../domain/account.js';
+import { currencyCodes } from '../../../shared/money/index';
+import type { Account } from '../domain/account';
 
 const uuid = z.string().uuid('must be a UUID');
 

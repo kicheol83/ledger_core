@@ -2,12 +2,12 @@ import { Controller, Get, INestApplication, Module } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { DomainExceptionFilter } from '../../src/shared/errors/error.filter.js';
+import { DomainExceptionFilter } from '../../src/shared/errors/error.filter';
 import {
   AccountNotFoundError,
   ConcurrentModificationError,
   InsufficientFundsError,
-} from '../../src/shared/errors/ledger.errors.js';
+} from '../../src/shared/errors/ledger.errors';
 
 @Controller('failures')
 class FailureController {

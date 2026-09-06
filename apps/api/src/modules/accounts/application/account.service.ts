@@ -1,9 +1,9 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { AccountNotFoundError } from '../../../shared/errors/ledger.errors.js';
-import { getCurrency } from '../../../shared/money/index.js';
-import type { Account, AccountStatus } from '../domain/account.js';
-import { AccountRepository } from '../infrastructure/account.repository.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { AccountNotFoundError } from '../../../shared/errors/ledger.errors';
+import { getCurrency } from '../../../shared/money/index';
+import type { Account, AccountStatus } from '../domain/account';
+import { AccountRepository } from '../infrastructure/account.repository';
 
 @Injectable()
 export class AccountService {

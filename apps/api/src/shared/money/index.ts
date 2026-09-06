@@ -1,4 +1,4 @@
-export { Money, InvalidMoneyError } from './money.js';
+export { Money, InvalidMoneyError } from './money';
 export {
   getCurrency,
   isCurrencyCode,
@@ -6,4 +6,4 @@ export {
   UnknownCurrencyError,
   type CurrencyCode,
   type CurrencyDefinition,
-} from './currency.js';
+} from './currency';

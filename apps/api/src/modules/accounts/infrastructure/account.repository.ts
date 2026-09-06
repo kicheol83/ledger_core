@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { Account, type AccountStatus, type AccountType } from '../domain/account.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { Account, type AccountStatus, type AccountType } from '../domain/account';
 
 interface AccountRow {
   id: string;

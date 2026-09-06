@@ -1,10 +1,10 @@
 import type { DatabaseError } from 'pg';
-import { DomainError } from './domain.error.js';
+import { DomainError } from './domain.error';
 import {
   AlreadyReversedError,
   ConcurrentModificationError,
   LedgerInvariantViolationError,
-} from './ledger.errors.js';
+} from './ledger.errors';
 
 const SQLSTATE = {
   UNIQUE_VIOLATION: '23505',

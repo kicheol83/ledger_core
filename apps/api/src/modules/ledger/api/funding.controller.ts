@@ -1,9 +1,9 @@
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { z } from 'zod';
-import { Money, currencyCodes } from '../../../shared/money/index.js';
-import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe.js';
-import { IdempotencyInterceptor } from '../../idempotency/api/idempotency.interceptor.js';
-import { FundingService } from '../application/funding.service.js';
+import { Money, currencyCodes } from '../../../shared/money/index';
+import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe';
+import { IdempotencyInterceptor } from '../../idempotency/api/idempotency.interceptor';
+import { FundingService } from '../application/funding.service';
 
 const fundingSchema = z
   .object({

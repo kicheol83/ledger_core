@@ -7,9 +7,9 @@ import {
   Logger,
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
-import { currentRequestId } from '../observability/request-context.js';
-import { ConcurrencyError, DomainError } from './domain.error.js';
-import { translatePostgresError } from './postgres-error.translator.js';
+import { currentRequestId } from '../observability/request-context';
+import { ConcurrencyError, DomainError } from './domain.error';
+import { translatePostgresError } from './postgres-error.translator';
 
 interface ProblemDetails {
   type: string;

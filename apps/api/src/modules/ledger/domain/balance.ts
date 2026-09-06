@@ -1,5 +1,5 @@
-import { Money } from '../../../shared/money/index.js';
-import { InsufficientFundsError } from '../../../shared/errors/ledger.errors.js';
+import { Money } from '../../../shared/money/index';
+import { InsufficientFundsError } from '../../../shared/errors/ledger.errors';
 
 export class Balance {
   constructor(

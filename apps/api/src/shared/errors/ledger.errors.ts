@@ -1,4 +1,4 @@
-import { ConcurrencyError, DomainError } from './domain.error.js';
+import { ConcurrencyError, DomainError } from './domain.error';
 
 export class AccountNotFoundError extends DomainError {
   readonly code = 'ACCOUNT_NOT_FOUND';

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import type { OutboxEventInput } from '../domain/event.js';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import type { OutboxEventInput } from '../domain/event';
 
 export interface OutboxEvent {
   id: string;

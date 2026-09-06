@@ -3,9 +3,9 @@ import { Test } from '@nestjs/testing';
 import type { Pool } from 'pg';
 import request from 'supertest';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { AppModule } from '../../src/app.module.js';
-import { PG_POOL } from '../../src/shared/database/executor.js';
-import { DomainExceptionFilter } from '../../src/shared/errors/error.filter.js';
+import { AppModule } from '../../src/app.module';
+import { PG_POOL } from '../../src/shared/database/executor';
+import { DomainExceptionFilter } from '../../src/shared/errors/error.filter';
 
 describe('Balance derivation', () => {
   let app: INestApplication;

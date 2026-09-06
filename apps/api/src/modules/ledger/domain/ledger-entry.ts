@@ -1,4 +1,4 @@
-import { Money } from '../../../shared/money/index.js';
+import { Money } from '../../../shared/money/index';
 
 export const ENTRY_DIRECTIONS = ['DEBIT', 'CREDIT'] as const;
 export type EntryDirection = (typeof ENTRY_DIRECTIONS)[number];

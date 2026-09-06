@@ -1,6 +1,6 @@
 import { createHmac } from 'node:crypto';
 import { describe, expect, it } from 'vitest';
-import { verifySignature } from './webhook.publisher.js';
+import { verifySignature } from './webhook.publisher';
 
 const secret = 'a-secret-at-least-sixteen-chars';
 

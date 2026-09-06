@@ -1,5 +1,5 @@
-import { CurrencyMismatchError } from '../errors/ledger.errors.js';
-import { getCurrency, type CurrencyDefinition } from './currency.js';
+import { CurrencyMismatchError } from '../errors/ledger.errors';
+import { getCurrency, type CurrencyDefinition } from './currency';
 
 export class InvalidMoneyError extends Error {
   constructor(message: string) {

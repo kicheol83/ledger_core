@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UsePipes } from '@nestjs/common';
-import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe.js';
-import { AccountService } from '../application/account.service.js';
+import { ZodValidationPipe } from '../../../shared/validation/zod-validation.pipe';
+import { AccountService } from '../application/account.service';
 import {
   accountIdParamSchema,
   type AccountResponse,
@@ -12,7 +12,7 @@ import {
   type CreateAccountDto,
   type CreateUserDto,
   type UpdateStatusDto,
-} from './account.dto.js';
+} from './account.dto';
 
 @Controller('accounts')
 export class AccountController {

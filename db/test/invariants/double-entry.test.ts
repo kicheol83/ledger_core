@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { expectCommitToFail, withClient } from '../setup/db.js';
+import { expectCommitToFail, withClient } from '../setup/db';
 import {
   balanceOf,
   createAccount,
   integrityViolations,
   transfer,
   writeTransaction,
-} from '../setup/fixtures.js';
+} from '../setup/fixtures';
 
 describe('double-entry invariants', () => {
   describe('rule 1: a transaction needs at least two entries', () => {

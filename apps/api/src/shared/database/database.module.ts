@@ -1,10 +1,10 @@
 import { Global, Logger, Module, type OnApplicationShutdown } from '@nestjs/common';
 import { Inject, Injectable } from '@nestjs/common';
 import type { Pool } from 'pg';
-import { AppConfig } from '../../config/app.config.js';
-import { PG_POOL } from './executor.js';
-import { createPool } from './pg-pool.provider.js';
-import { TransactionManager } from './transaction.manager.js';
+import { AppConfig } from '../../config/app.config';
+import { PG_POOL } from './executor';
+import { createPool } from './pg-pool.provider';
+import { TransactionManager } from './transaction.manager';
 
 @Injectable()
 class PoolLifecycle implements OnApplicationShutdown {

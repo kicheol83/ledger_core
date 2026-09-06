@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from './config/config.module.js';
-import { HealthController } from './health/health.controller.js';
-import { ReadinessController } from './health/readiness.controller.js';
-import { AccountsModule } from './modules/accounts/accounts.module.js';
-import { LedgerModule } from './modules/ledger/ledger.module.js';
-import { OutboxModule } from './modules/outbox/outbox.module.js';
-import { DatabaseModule } from './shared/database/database.module.js';
-import { ObservabilityModule } from './shared/observability/observability.module.js';
+import { ConfigModule } from './config/config.module';
+import { HealthController } from './health/health.controller';
+import { ReadinessController } from './health/readiness.controller';
+import { AccountsModule } from './modules/accounts/accounts.module';
+import { LedgerModule } from './modules/ledger/ledger.module';
+import { OutboxModule } from './modules/outbox/outbox.module';
+import { DatabaseModule } from './shared/database/database.module';
+import { ObservabilityModule } from './shared/observability/observability.module';
 
 @Module({
   imports: [

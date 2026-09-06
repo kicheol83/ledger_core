@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { InsufficientFundsError } from '../../../shared/errors/ledger.errors.js';
-import { CurrencyMismatchError } from '../../../shared/errors/ledger.errors.js';
-import { Money } from '../../../shared/money/index.js';
-import { Balance } from './balance.js';
-import { BalancedEntries, simpleTransfer, UnbalancedEntriesError } from './ledger-entry.js';
+import { InsufficientFundsError } from '../../../shared/errors/ledger.errors';
+import { CurrencyMismatchError } from '../../../shared/errors/ledger.errors';
+import { Money } from '../../../shared/money/index';
+import { Balance } from './balance';
+import { BalancedEntries, simpleTransfer, UnbalancedEntriesError } from './ledger-entry';
 
 const uzs = (amount: bigint): Money => Money.fromMinorUnits(amount, 'UZS');
 

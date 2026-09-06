@@ -8,11 +8,11 @@ import {
 } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { from, type Observable } from 'rxjs';
-import { AppConfig } from '../../../config/app.config.js';
-import { TransactionManager } from '../../../shared/database/transaction.manager.js';
-import { IdempotencyConflictError } from '../../../shared/errors/ledger.errors.js';
-import { hashRequest } from '../domain/request-hash.js';
-import { IdempotencyRepository } from '../infrastructure/idempotency.repository.js';
+import { AppConfig } from '../../../config/app.config';
+import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { IdempotencyConflictError } from '../../../shared/errors/ledger.errors';
+import { hashRequest } from '../domain/request-hash';
+import { IdempotencyRepository } from '../infrastructure/idempotency.repository';
 
 const HEADER = 'idempotency-key';
 

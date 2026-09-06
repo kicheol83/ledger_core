@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { ConfigModule } from './config/config.module.js';
-import { AppConfig } from './config/app.config.js';
+import { ConfigModule } from './config/config.module';
+import { AppConfig } from './config/app.config';
 import { Module } from '@nestjs/common';
-import { OutboxWorker } from './modules/outbox/application/outbox-worker.service.js';
-import { OutboxModule } from './modules/outbox/outbox.module.js';
-import { DatabaseModule } from './shared/database/database.module.js';
-import { StructuredLogger } from './shared/observability/structured-logger.js';
+import { OutboxWorker } from './modules/outbox/application/outbox-worker.service';
+import { OutboxModule } from './modules/outbox/outbox.module';
+import { DatabaseModule } from './shared/database/database.module';
+import { StructuredLogger } from './shared/observability/structured-logger';
 
 @Module({
   imports: [ConfigModule, DatabaseModule, OutboxModule],

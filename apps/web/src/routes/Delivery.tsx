@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Empty, Failure, Loading } from '../components/state.js';
-import { get } from '../lib/api.js';
-import { formatRelative, formatTimestamp, shortId } from '../lib/money.js';
-import { useAsync, usePolling } from '../lib/useAsync.js';
+import { Empty, Failure, Loading } from '../components/state';
+import { get } from '../lib/api';
+import { formatRelative, formatTimestamp, shortId } from '../lib/money';
+import { useAsync, usePolling } from '../lib/useAsync';
 import './Delivery.css';
 
 type Status = 'PENDING' | 'PUBLISHED' | 'FAILED';

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ApiError } from './api.js';
+import { ApiError } from './api';
 
 export interface AsyncState<T> {
   data: T | undefined;
