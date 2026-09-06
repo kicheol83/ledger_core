@@ -2,13 +2,9 @@ name: CI
 
 on:
   push:
-    branches:
-      - develop
-      - master
-
+    branches: [master, develop]
   pull_request:
-    branches:
-      - master
+    branches: [master, develop]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -122,7 +118,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Run migrations
-        run: pnpm migrate
+        run: pnpm migrate:test
 
       - name: Run tests
         run: pnpm test
