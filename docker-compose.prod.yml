@@ -1,0 +1,115 @@
+name: ledgercore
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ledger
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ledgercore
+      POSTGRES_INITDB_ARGS: '--locale-provider=icu --icu-locale=en-US --encoding=UTF8'
+    command: ['postgres', '-c', 'config_file=/etc/postgresql/postgresql.conf']
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./docker/postgres/postgresql.prod.conf:/etc/postgresql/postgresql.conf:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ledger -d ledgercore']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+    networks:
+      - internal
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ['redis-server', '--appendonly', 'yes', '--appendfsync', 'everysec']
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      - internal
+
+  migrate:
+    build:
+      context: .
+      target: migrate
+    environment:
+      DATABASE_URL: postgresql://ledger:${POSTGRES_PASSWORD}@postgres:5432/ledgercore
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+    networks:
+      - internal
+
+  api:
+    build:
+      context: .
+      target: api
+    restart: unless-stopped
+    environment: &app-env
+      NODE_ENV: production
+      PORT: 3000
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      DATABASE_URL: postgresql://ledger:${POSTGRES_PASSWORD}@postgres:5432/ledgercore
+      REDIS_URL: redis://redis:6379
+      OUTBOX_WEBHOOK_URL: http://webhook-sink:8080/events
+      OUTBOX_WEBHOOK_SECRET: ${OUTBOX_WEBHOOK_SECRET:?OUTBOX_WEBHOOK_SECRET is required}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    networks:
+      - internal
+
+  worker:
+    build:
+      context: .
+      target: api
+    restart: unless-stopped
+    command: ['node', 'dist/worker.js']
+    environment: *app-env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      webhook-sink:
+        condition: service_started
+    networks:
+      - internal
+
+  webhook-sink:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    command: ['caddy', 'respond', '--listen', ':8080', 'ok']
+    networks:
+      - internal
+
+  web:
+    build:
+      context: .
+      target: web
+    container_name: ledgercore-web
+    restart: unless-stopped
+    depends_on:
+      - api
+    networks:
+      - internal
+      - proxy
+
+networks:
+  internal: {}
+  proxy:
+    external: true
+    name: proxy
+
+volumes:
+  pg_data:
+  redis_data:
