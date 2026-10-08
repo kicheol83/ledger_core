@@ -16,7 +16,7 @@ describe('Reversals', () => {
     const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
     app = moduleRef.createNestApplication();
     app.useGlobalFilters(new DomainExceptionFilter());
-    await app.init();
+    await app.listen(0);
     pool = app.get<Pool>(PG_POOL);
   });
 
