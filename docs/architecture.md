@@ -141,8 +141,10 @@ split exists where it earns its cost. See
 
 ## Technology choices
 
-PostgreSQL 16 is the only datastore for durable state. Redis holds queue state
-for the outbox worker and nothing that cannot be rebuilt.
+PostgreSQL 16 is the only datastore, including the outbox queue: the worker
+leases due events with `FOR UPDATE SKIP LOCKED`, so an event and the ledger
+entries it describes commit or roll back together. Redis is provisioned in the
+Compose files but is not used by the application yet.
 
 Data access is raw SQL through `pg`, not an ORM. The system depends on
 `SELECT ... FOR UPDATE`, `DEFERRABLE INITIALLY DEFERRED`, `FOR UPDATE SKIP
