@@ -25,9 +25,10 @@ export const options = {
 const COPIES = 3;
 const AMOUNT = 100;
 const KEYS_PER_VU = 20;
+const STARTING_BALANCE = 100_000_000;
 
 export function setup() {
-  const accounts = provisionAccounts(2, 100_000_000);
+  const accounts = provisionAccounts(2, STARTING_BALANCE);
   return { from: accounts[0], to: accounts[1] };
 }
 
@@ -49,7 +50,7 @@ export default function run(data) {
 }
 
 export function teardown(data) {
-  const expected = 30 * KEYS_PER_VU * AMOUNT;
+  const expected = STARTING_BALANCE + 30 * KEYS_PER_VU * AMOUNT;
   const response = http.get(`${BASE_URL}/accounts/${data.to}/balance`);
   const actual = Number(response.json('amount'));
 

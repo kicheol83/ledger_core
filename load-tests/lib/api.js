@@ -18,7 +18,7 @@ export function headers(idempotencyKey) {
     'Content-Type': 'application/json',
     'Idempotency-Key': idempotencyKey || uuidv4(),
 
-    'X-Request-Id': `k6-${__VU}-${__ITER}-${Date.now()}`,
+    'X-Request-Id': `k6-${__VU}-${typeof __ITER === 'undefined' ? 'setup' : __ITER}-${Date.now()}`,
   };
 }
 
