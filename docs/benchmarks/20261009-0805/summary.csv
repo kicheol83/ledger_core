@@ -1,0 +1,5 @@
+﻿"scenario","valid_runs","median_rps","median_p95_ms","median_p99_ms","median_balance_p95","median_history_p95","faults_total","deadlocks_total","contention_total","ledger_balanced"
+"baseline-transfers","3/3","214.9","274","359",,,"0","0","0","pass"
+"hot-account","3/3","50.1","953.9","1068.8",,,"0","0","0","pass"
+"idempotency-storm","3/3","170.4","440.3","505.2",,,"0","0","0","pass"
+"mixed-workload","3/3","431.5","340.1","462.8","144.5","87.6","0","0","0","pass"

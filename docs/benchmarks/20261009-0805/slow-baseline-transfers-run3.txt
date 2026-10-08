@@ -1,0 +1,14 @@
+﻿ calls  | total_ms | mean_ms |                                                query                                                 
+--------+----------+---------+------------------------------------------------------------------------------------------------------
+  77062 | 157510.4 |    2.04 | SELECT account_id, coalesce(sum(CASE WHEN direction = $2 THEN amount ELSE -amount END), $3)::text AS
+ 115953 |  90660.7 |    0.78 | SELECT assert_transaction_balanced(NEW.id)
+  38651 |  46928.1 |    1.21 | INSERT INTO ledger_entries (transaction_id, account_id, direction, amount) SELECT $1::uuid, account_
+  38651 |  20636.1 |    0.53 | INSERT INTO transactions (type, status, amount, currency, reverses_id, metadata, completed_at) VALUE
+  38651 |  19639.4 |    0.51 | UPDATE idempotency_keys SET response_status = $2, response_body = $3, transaction_id = $4 WHERE key 
+ 115953 |  16339.7 |    0.14 | SELECT a.id FROM ledger_entries e JOIN accounts a ON a.id = e.account_id WHERE e.transaction_id = p_
+  38651 |  15187.1 |    0.39 | INSERT INTO idempotency_keys (key, endpoint, request_hash, expires_at) VALUES ($1, $2, $3, now() + m
+  38651 |  14266.8 |    0.37 | INSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload) VALUES ($1, $2, $3, $4
+  38651 |  11219.7 |    0.29 | SELECT id, currency, status, type FROM accounts WHERE id = ANY($1::uuid[]) ORDER BY id FOR UPDATE
+ 115953 |  10347.8 |    0.09 | SELECT 1 FROM ONLY "public"."transactions" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHARE OF x
+(10 rows)
+
