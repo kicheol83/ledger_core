@@ -65,6 +65,12 @@ export class ReversalService {
 
       const locked = await this.transactionRepository.lockAccounts(mirrored.accountIds);
 
+      const current = await this.transactionRepository.findById(transactionId);
+
+      if (current?.status === 'REVERSED') {
+        throw new AlreadyReversedError(transactionId);
+      }
+
       await this.assertRecipientsCanRepay(mirrored, locked, original.currency);
 
       const reversal = await this.transactionRepository.insertTransaction({
