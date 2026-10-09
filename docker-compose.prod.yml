@@ -20,7 +20,10 @@ services:
       retries: 10
       start_period: 10s
     networks:
-      - internal
+      internal: {}
+      monitoring:
+        aliases:
+          - ledgercore-db
 
   redis:
     image: redis:7-alpine
@@ -110,6 +113,9 @@ networks:
   proxy:
     external: true
     name: proxy
+  monitoring:
+    external: true
+    name: monitoring
 
 volumes:
   pg_data:
