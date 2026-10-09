@@ -86,6 +86,7 @@ try {
 
 $cpu = (Get-CimInstance Win32_Processor | Select-Object -First 1).Name
 $ram = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory / 1GB, 1)
+$readMode = if ($env:READ_RATE) { "$env:READ_RATE iterations/s (constant-arrival-rate)" } else { 'closed model (constant-vus)' }
 @(
     "date: $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
     "cpu: $cpu"
@@ -96,6 +97,7 @@ $ram = [math]::Round((Get-CimInstance Win32_ComputerSystem).TotalPhysicalMemory 
     "postgres_logging_during_run: log_statement=none, log_min_duration_statement=500ms (prod settings)"
     "runs_per_scenario: $Runs (+1 warm-up run of idempotency-storm, discarded)"
     "base_url: $BaseUrl"
+    "read_rate: $readMode"
 ) | Set-Content (Join-Path $outDir 'environment.txt') -Encoding UTF8
 
 $rows = @()
@@ -116,7 +118,7 @@ try {
             $deadlocksBefore = Get-Deadlocks
 
             $json = Join-Path $outDir "k6-$s-run$i.json"
-            & k6 run --quiet --log-output=none --summary-trend-stats $trendStats --summary-export $json -e "BASE_URL=$BaseUrl" "load-tests/$s.js" | Out-Null
+            & k6 run --quiet --log-output=none --summary-trend-stats $trendStats --summary-export $json -e "BASE_URL=$BaseUrl" -e "READ_RATE=$env:READ_RATE" "load-tests/$s.js" | Out-Null
             $exitCode = $LASTEXITCODE
 
             $deadlocks = (Get-Deadlocks) - $deadlocksBefore
@@ -131,7 +133,10 @@ try {
             $faults = Get-Count $m 'ledger_faults'
             $balanced = Get-CheckResult $checks 'ledger still balances after load'
             $movedOnce = Get-CheckResult $checks 'money moved once per key, not once per request'
-            $valid = ($faults -eq 0) -and ($balanced -ne 'FAIL') -and ($movedOnce -ne 'FAIL')
+            $dropped = Get-Count $m 'dropped_iterations'
+            $iterations = Get-Count $m 'iterations'
+            $droppedShare = if (($iterations + $dropped) -gt 0) { $dropped / ($iterations + $dropped) } else { 1 }
+            $valid = ($faults -eq 0) -and ($balanced -eq 'pass') -and ($movedOnce -ne 'FAIL') -and ($exitCode -in 0, 99) -and ($droppedShare -le 0.01)
 
             $rows += [pscustomobject]@{
                 scenario          = $s
@@ -147,6 +152,7 @@ try {
                 succeeded         = Get-Count $m 'ledger_succeeded'
                 rejected_business = Get-Count $m 'ledger_rejected_business'
                 contention        = Get-Count $m 'ledger_contention'
+                dropped_iters     = $dropped
                 faults            = $faults
                 deadlocks         = $deadlocks
                 idem_originals    = Get-Count $m 'idempotent_originals'
@@ -156,7 +162,7 @@ try {
             }
 
             if (-not $valid) {
-                Write-Host "  invalid run: faults=$faults balanced=$balanced moved_once=$movedOnce" -ForegroundColor Yellow
+                Write-Host "  invalid run: exit=$exitCode faults=$faults balanced=$balanced moved_once=$movedOnce dropped=$dropped" -ForegroundColor Yellow
             }
         }
     }
@@ -188,6 +194,6 @@ $summaryRows = foreach ($s in $Scenarios) {
 
 $summaryRows | Export-Csv (Join-Path $outDir 'summary.csv') -NoTypeInformation -Encoding UTF8
 
-$rows | Format-Table scenario, run, valid, rps, transfer_p95_ms, transfer_p99_ms, succeeded, rejected_business, contention, faults, deadlocks, ledger_balanced -AutoSize
+$rows | Format-Table scenario, run, valid, rps, balance_p95_ms, history_p95_ms, dropped_iters, transfer_p95_ms, transfer_p99_ms, succeeded, rejected_business, contention, faults, deadlocks, ledger_balanced -AutoSize
 $summaryRows | Format-Table -AutoSize
 Write-Host "Saved to $outDir"
