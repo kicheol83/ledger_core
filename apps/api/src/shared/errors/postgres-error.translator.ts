@@ -3,6 +3,7 @@ import { DomainError } from './domain.error';
 import {
   AlreadyReversedError,
   ConcurrentModificationError,
+  DatabaseTimeoutError,
   LedgerInvariantViolationError,
 } from './ledger.errors';
 
@@ -17,6 +18,8 @@ const SQLSTATE = {
   QUERY_CANCELED: '57014',
 } as const;
 
+const POOL_CONNECT_TIMEOUT_MESSAGE = 'timeout exceeded when trying to connect';
+
 function isDatabaseError(error: unknown): error is DatabaseError {
   return error instanceof Error && typeof (error as DatabaseError).code === 'string';
 }
@@ -24,6 +27,10 @@ function isDatabaseError(error: unknown): error is DatabaseError {
 export function translatePostgresError(error: unknown): unknown {
   if (error instanceof DomainError) {
     return error;
+  }
+
+  if (error instanceof Error && error.message === POOL_CONNECT_TIMEOUT_MESSAGE) {
+    return new DatabaseTimeoutError('connection');
   }
 
   if (!isDatabaseError(error)) {
@@ -45,7 +52,7 @@ export function translatePostgresError(error: unknown): unknown {
       return new ConcurrentModificationError('account');
 
     case SQLSTATE.QUERY_CANCELED:
-      return error;
+      return new DatabaseTimeoutError('statement');
 
     default:
       return error;

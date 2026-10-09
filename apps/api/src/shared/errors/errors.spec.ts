@@ -4,6 +4,7 @@ import {
   AccountNotFoundError,
   AlreadyReversedError,
   ConcurrentModificationError,
+  DatabaseTimeoutError,
   IdempotentRequestInFlightError,
   InsufficientFundsError,
   LedgerInvariantViolationError,
@@ -123,8 +124,11 @@ describe('translatePostgresError', () => {
     expect(translatePostgresError(pgError('55P03'))).toBeInstanceOf(ConcurrentModificationError);
   });
 
-  it('leaves query_canceled unmapped', () => {
-    const original = pgError('57014');
-    expect(translatePostgresError(original)).toBe(original);
+  it('maps query_canceled to a retryable 503', () => {
+    const translated = translatePostgresError(pgError('57014'));
+
+    expect(translated).toBeInstanceOf(DatabaseTimeoutError);
+    expect((translated as DatabaseTimeoutError).httpStatus).toBe(503);
+    expect((translated as DatabaseTimeoutError).retryable).toBe(true);
   });
 });

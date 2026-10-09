@@ -9,6 +9,7 @@ import {
 import type { Request, Response } from 'express';
 import { currentRequestId } from '../observability/request-context';
 import { ConcurrencyError, DomainError } from './domain.error';
+import { DatabaseTimeoutError } from './ledger.errors';
 import { translatePostgresError } from './postgres-error.translator';
 
 interface ProblemDetails {
@@ -70,7 +71,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
         problem.errors = error.details;
       }
 
-      if (error instanceof ConcurrencyError) {
+      if (error instanceof ConcurrencyError || error instanceof DatabaseTimeoutError) {
         problem.retryable = true;
       }
 
