@@ -1,0 +1,4 @@
+﻿"scenario","run","valid","k6_exit","rps","transfer_avg_ms","transfer_p95_ms","transfer_p99_ms","balance_p95_ms","history_p95_ms","succeeded","rejected_business","contention","dropped_iters","faults","deadlocks","idem_originals","idem_replays","money_moved_once","ledger_balanced"
+"mixed-workload","1","True","0","314.5","83.7","170.5","279.1","47.6","41.7","14128","0","0","0","0","0","0","0","","pass"
+"mixed-workload","2","True","0","151","83.1","168.8","295.5","60.2","52.2","9899","0","0","9061","0","0","0","0","","pass"
+"mixed-workload","3","True","0","318.4","77.4","154.5","287.1","56","48.5","15262","0","0","21","0","0","0","0","","pass"
