@@ -388,5 +388,4 @@ visible during development instead of silent. Those settings are development
 only and `docker/postgres/postgresql.dev.conf` says so.
 
 Commits follow Conventional Commits with scopes matching module boundaries, so
-`git log --grep "ledger"` reconstructs one module's history. The message
-bodies explain _why_, which makes the history usable as documentation.
+`git log --grep "ledger"` reconstructs one module's history.

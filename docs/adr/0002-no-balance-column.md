@@ -1,7 +1,7 @@
 # ADR-0002: Derive balances from entries; no balance column
 
 - **Status:** Accepted
-- **Date:** 2026-01-15
+- **Date:** 2026-08-18
 
 ## Context
 

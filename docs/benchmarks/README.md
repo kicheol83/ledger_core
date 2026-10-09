@@ -98,5 +98,7 @@ under console logging, so treat it as directional.
 
 - A balance is a sum over the account's entries, so its cost grows with
   history: 0.42 ms mean at ~240 entries per account, 1.68 ms at ~850.
+  [ADR-0002](../adr/0002-no-balance-column.md) deferred balance snapshots
+  until measurement showed they were needed; this is that measurement.
 - `assert_transaction_balanced` runs three times per transfer — once per
   inserted row — and re-checks the whole transaction each time.

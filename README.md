@@ -296,4 +296,4 @@ cp .env.prod.example .env
 
 `pnpm db:reset`은 볼륨을 삭제하고 마이그레이션부터 다시 구성합니다. 로컬 Postgres는 락 경합이 조용히 묻히지 않고 개발 중에 드러나도록 일부러 로그를 많이 남기게 설정되어 있습니다(`log_statement=all`, `log_lock_waits=on`, 200ms `deadlock_timeout`). 이 설정은 개발 전용이며, `docker/postgres/postgresql.dev.conf`에도 그렇게 명시되어 있습니다.
 
-커밋은 모듈 경계와 일치하는 scope를 가진 Conventional Commits를 따르므로, `git log --grep "ledger"`로 한 모듈의 이력을 재구성할 수 있습니다. 커밋 본문은 _왜_ 를 설명하므로, 이력 자체를 문서로 활용할 수 있습니다.
+커밋은 모듈 경계와 일치하는 scope를 가진 Conventional Commits를 따르므로, `git log --grep "ledger"`로 한 모듈의 이력을 재구성할 수 있습니다.

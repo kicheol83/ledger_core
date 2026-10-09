@@ -1,7 +1,7 @@
 # ADR-0004: Build a modular monolith, not microservices
 
 - **Status:** Accepted
-- **Date:** 2026-01-15
+- **Date:** 2026-08-18
 
 ## Context
 

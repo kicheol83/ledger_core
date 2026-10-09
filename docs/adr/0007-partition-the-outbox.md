@@ -1,7 +1,7 @@
 # ADR-0007: Partition the outbox, not the ledger
 
 - **Status:** Accepted
-- **Date:** 2026-01-22
+- **Date:** 2026-09-02
 
 ## Context
 

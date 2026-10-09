@@ -1,7 +1,7 @@
 # ADR-0005: Enforce ledger invariants in the database
 
 - **Status:** Accepted
-- **Date:** 2026-01-16
+- **Date:** 2026-08-19
 
 ## Context
 

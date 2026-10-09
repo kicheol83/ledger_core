@@ -1,7 +1,7 @@
 # ADR-0006: Serialise transfers with ordered row locks, not SERIALIZABLE
 
 - **Status:** Accepted
-- **Date:** 2026-01-18
+- **Date:** 2026-08-27
 
 ## Context
 

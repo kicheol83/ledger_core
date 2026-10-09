@@ -1,7 +1,7 @@
 # ADR-0001: Represent monetary values as BIGINT minor units
 
 - **Status:** Accepted
-- **Date:** 2026-01-15
+- **Date:** 2026-08-18
 
 ## Context
 

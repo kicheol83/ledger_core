@@ -1,7 +1,7 @@
 # ADR-0003: Use raw SQL instead of an ORM
 
 - **Status:** Accepted
-- **Date:** 2026-01-15
+- **Date:** 2026-08-18
 
 ## Context
 
