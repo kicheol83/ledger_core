@@ -35,6 +35,13 @@ class FailureController {
   postgres(): never {
     throw Object.assign(new Error('deadlock detected'), { code: '40P01' });
   }
+
+  @Get('statement-timeout')
+  statementTimeout(): never {
+    throw Object.assign(new Error('canceling statement due to statement timeout'), {
+      code: '57014',
+    });
+  }
 }
 
 @Module({ controllers: [FailureController] })
@@ -85,6 +92,14 @@ describe('DomainExceptionFilter', () => {
     const response = await request(app.getHttpServer()).get('/failures/contention');
 
     expect(response.status).toBe(409);
+    expect(response.body.retryable).toBe(true);
+  });
+
+  it('answers a database timeout with a retryable 503', async () => {
+    const response = await request(app.getHttpServer()).get('/failures/statement-timeout');
+
+    expect(response.status).toBe(503);
+    expect(response.body.code).toBe('DATABASE_TIMEOUT');
     expect(response.body.retryable).toBe(true);
   });
 

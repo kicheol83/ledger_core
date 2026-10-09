@@ -112,6 +112,16 @@ export class ConcurrentModificationError extends ConcurrencyError {
   }
 }
 
+export class DatabaseTimeoutError extends DomainError {
+  readonly code = 'DATABASE_TIMEOUT';
+  readonly httpStatus = 503;
+  readonly retryable = true;
+
+  constructor(stage: 'connection' | 'statement') {
+    super(`the database did not respond in time (${stage}); retry the request`, { stage });
+  }
+}
+
 export class LedgerInvariantViolationError extends DomainError {
   readonly code = 'LEDGER_INVARIANT_VIOLATION';
   readonly httpStatus = 500;
