@@ -21,6 +21,24 @@ const BALANCE_EXPRESSION = `
 export class BalanceRepository {
   constructor(private readonly transactions: TransactionManager) {}
 
+  async currentBalance(accountId: string): Promise<Balance | null> {
+    const result = await this.transactions.executor.query<BalanceRow & { currency: string }>(
+      `SELECT a.id AS account_id, a.currency, b.balance, b.as_of_entry_id, b.entry_count
+         FROM accounts a
+        CROSS JOIN LATERAL (
+              SELECT ${BALANCE_EXPRESSION}
+                FROM ledger_entries
+               WHERE account_id = a.id
+             ) b
+        WHERE a.id = $1`,
+      [accountId],
+    );
+
+    const row = result.rows[0];
+
+    return row ? toBalance(row, row.account_id, row.currency) : null;
+  }
+
   async balanceOf(accountId: string, currency: string): Promise<Balance> {
     const result = await this.transactions.executor.query<BalanceRow>(
       `SELECT $1::uuid AS account_id, ${BALANCE_EXPRESSION}

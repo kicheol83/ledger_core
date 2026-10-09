@@ -2,7 +2,7 @@ import { type INestApplication } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import type { Pool } from 'pg';
 import request from 'supertest';
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { AppModule } from '../../src/app.module';
 import { PG_POOL } from '../../src/shared/database/executor';
 import { DomainExceptionFilter } from '../../src/shared/errors/error.filter';
@@ -127,6 +127,22 @@ describe('Balance derivation', () => {
         .expect(404);
 
       expect(response.body.code).toBe('ACCOUNT_NOT_FOUND');
+    });
+
+    it('reads the balance with a single pooled statement', async () => {
+      const { a, b } = await seedAccounts();
+      await postTransfer(a, b, 100n);
+
+      const query = vi.spyOn(pool, 'query');
+
+      try {
+        const response = await http().get(`/accounts/${b}/balance`).expect(200);
+
+        expect(response.body.amount).toBe('100');
+        expect(query).toHaveBeenCalledTimes(1);
+      } finally {
+        query.mockRestore();
+      }
     });
   });
 
