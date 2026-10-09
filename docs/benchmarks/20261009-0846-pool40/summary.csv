@@ -1,0 +1,2 @@
+﻿"scenario","valid_runs","median_rps","median_p95_ms","median_p99_ms","median_balance_p95","median_history_p95","faults_total","deadlocks_total","contention_total","ledger_balanced"
+"mixed-workload","3/3","500.2","421.5","584.6","131.8","53.2","0","0","0","pass"

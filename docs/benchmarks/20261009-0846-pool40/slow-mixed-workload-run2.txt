@@ -1,0 +1,14 @@
+﻿ calls | total_ms | mean_ms |                                                query                                                 
+-------+----------+---------+------------------------------------------------------------------------------------------------------
+  4821 | 192132.8 |   39.85 | SELECT id, currency, status, type FROM accounts WHERE id = ANY($1::uuid[]) ORDER BY id FOR UPDATE
+ 27990 |  10930.1 |    0.39 | SELECT t.id, t.type, t.status, t.amount, t.currency, t.reverses_id, t.metadata, t.created_at, t.comp
+ 14463 |   7133.3 |    0.49 | SELECT assert_transaction_balanced(NEW.id)
+ 28477 |   5758.8 |    0.20 | SELECT $1::uuid AS account_id, coalesce(sum(CASE WHEN direction = $2 THEN amount ELSE -amount END), 
+  4821 |   3665.4 |    0.76 | INSERT INTO ledger_entries (transaction_id, account_id, direction, amount) SELECT $1::uuid, account_
+  8668 |   2671.0 |    0.31 | SELECT account_id, coalesce(sum(CASE WHEN direction = $2 THEN amount ELSE -amount END), $3)::text AS
+ 27990 |   2214.3 |    0.08 | SELECT id, user_id, currency, type, status, created_at FROM accounts WHERE id = $1
+  4821 |   1624.7 |    0.34 | INSERT INTO transactions (type, status, amount, currency, reverses_id, metadata, completed_at) VALUE
+  4821 |   1553.2 |    0.32 | UPDATE idempotency_keys SET response_status = $2, response_body = $3, transaction_id = $4 WHERE key 
+  4821 |   1351.0 |    0.28 | INSERT INTO idempotency_keys (key, endpoint, request_hash, expires_at) VALUES ($1, $2, $3, now() + m
+(10 rows)
+
