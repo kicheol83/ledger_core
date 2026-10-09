@@ -22,3 +22,5 @@ pnpm-debug.log*
 
 pg_data/
 redis_data/
+
+.deploy-history
