@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TransactionManager } from '../../../shared/database/transaction.manager';
+import { AccountNotFoundError } from '../../../shared/errors/ledger.errors';
 import type { Money } from '../../../shared/money/index';
 import { AccountService } from '../../accounts/application/account.service';
 import type { Balance } from '../domain/balance';
@@ -15,13 +16,13 @@ export class BalanceService {
   ) {}
 
   async getBalance(accountId: string): Promise<Balance> {
-    return this.transactions.run(
-      async () => {
-        const account = await this.accounts.getAccount(accountId);
-        return this.balances.balanceOf(account.id, account.currency);
-      },
-      { readOnly: true },
-    );
+    const balance = await this.balances.currentBalance(accountId);
+
+    if (!balance) {
+      throw new AccountNotFoundError(accountId);
+    }
+
+    return balance;
   }
 
   async getBalanceAsOf(accountId: string, entryId: string): Promise<Balance> {
