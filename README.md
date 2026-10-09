@@ -277,8 +277,11 @@ liveness와 readiness는 의도적으로 분리했습니다. 데이터베이스 
 
 ```bash
 cp .env.prod.example .env
-docker compose -f docker-compose.prod.yml up -d --build
+./scripts/deploy.sh
+./scripts/rollback.sh
 ```
+
+`deploy.sh`는 upstream 브랜치에 머지 충돌 마커가 있으면 배포를 중단하고, fast-forward 후 커밋 SHA로 태그된 이미지를 빌드·실행한 뒤 `/v1/health/ready` 응답을 기다립니다. 준비 상태가 확인된 버전만 `.env`의 `APP_TAG`와 `.deploy-history`에 기록됩니다. `rollback.sh`는 다시 빌드하지 않고 `api`, `worker`, `web`을 이전 SHA(또는 인자로 지정한 SHA)로 되돌립니다. 마이그레이션은 되돌리지 않으므로, 모든 마이그레이션은 이전 릴리스가 계속 동작하도록 작성해야 합니다.
 
 하나의 멀티 스테이지 `Dockerfile`이 모든 이미지를 만듭니다: `api`(워커도 같은 이미지 사용), `migrate`, `web`. `migrate`는 시작할 때마다 미적용 마이그레이션과 시스템 계좌 시드를 적용하며, API와 워커는 이 작업이 성공적으로 끝날 때까지 기다립니다.
 

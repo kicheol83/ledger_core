@@ -350,8 +350,17 @@ right answer at this scale and pretending otherwise would be theatre.
 
 ```bash
 cp .env.prod.example .env
-docker compose -f docker-compose.prod.yml up -d --build
+./scripts/deploy.sh
+./scripts/rollback.sh
 ```
+
+`deploy.sh` refuses to run if the upstream branch contains merge-conflict
+markers, fast-forwards, builds images tagged with the commit SHA, starts them
+and waits for `/v1/health/ready`. Only a version that became ready is written
+to `APP_TAG` in `.env` and to `.deploy-history`. `rollback.sh` switches
+`api`, `worker` and `web` back to the previous SHA (or the one given as an
+argument) without rebuilding. It does not undo migrations, so every migration
+must keep the previous release working.
 
 One multi-stage `Dockerfile` produces every image: `api` (also used by the
 worker), `migrate`, and `web`. On every start, `migrate` applies pending

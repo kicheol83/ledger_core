@@ -37,6 +37,7 @@ services:
       - internal
 
   migrate:
+    image: ledgercore-migrate:${APP_TAG:-latest}
     build:
       context: .
       target: migrate
@@ -50,6 +51,7 @@ services:
       - internal
 
   api:
+    image: ledgercore-api:${APP_TAG:-latest}
     build:
       context: .
       target: api
@@ -71,9 +73,7 @@ services:
       - internal
 
   worker:
-    build:
-      context: .
-      target: api
+    image: ledgercore-api:${APP_TAG:-latest}
     restart: unless-stopped
     command: ['node', 'dist/worker.js']
     environment: *app-env
@@ -93,6 +93,7 @@ services:
       - internal
 
   web:
+    image: ledgercore-web:${APP_TAG:-latest}
     build:
       context: .
       target: web
