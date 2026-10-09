@@ -1,0 +1,14 @@
+﻿ calls  | total_ms | mean_ms |                                                query                                                 
+--------+----------+---------+------------------------------------------------------------------------------------------------------
+  97682 | 316929.3 |    3.24 | SELECT account_id, coalesce(sum(CASE WHEN direction = $2 THEN amount ELSE -amount END), $3)::text AS
+ 146883 | 107833.8 |    0.73 | SELECT assert_transaction_balanced(NEW.id)
+  48961 |  54170.8 |    1.11 | INSERT INTO ledger_entries (transaction_id, account_id, direction, amount) SELECT $1::uuid, account_
+  48961 |  23085.2 |    0.47 | INSERT INTO transactions (type, status, amount, currency, reverses_id, metadata, completed_at) VALUE
+  48961 |  22492.3 |    0.46 | UPDATE idempotency_keys SET response_status = $2, response_body = $3, transaction_id = $4 WHERE key 
+ 146883 |  20412.8 |    0.14 | SELECT a.id FROM ledger_entries e JOIN accounts a ON a.id = e.account_id WHERE e.transaction_id = p_
+  48961 |  17205.7 |    0.35 | INSERT INTO idempotency_keys (key, endpoint, request_hash, expires_at) VALUES ($1, $2, $3, now() + m
+  48961 |  14841.1 |    0.30 | INSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload) VALUES ($1, $2, $3, $4
+ 146883 |  13592.0 |    0.09 | SELECT count(*), coalesce(sum(amount) FILTER (WHERE direction = 'DEBIT'), 0), coalesce(sum(amount) F
+ 146883 |  12463.6 |    0.08 | SELECT 1 FROM ONLY "public"."transactions" x WHERE "id" OPERATOR(pg_catalog.=) $1 FOR KEY SHARE OF x
+(10 rows)
+

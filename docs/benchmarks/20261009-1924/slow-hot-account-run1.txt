@@ -1,0 +1,6 @@
+﻿ calls | total_ms | mean_ms |                           query                           
+-------+----------+---------+-----------------------------------------------------------
+     2 |      0.3 |    0.16 | SELECT deadlocks FROM pg_stat_database WHERE datname = $1
+     1 |      0.2 |    0.17 | SELECT pg_stat_statements_reset()
+(2 rows)
+

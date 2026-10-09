@@ -1,0 +1,14 @@
+﻿ calls | total_ms  | mean_ms |                                                query                                                 
+-------+-----------+---------+------------------------------------------------------------------------------------------------------
+  7059 | 1656232.8 |  234.63 | SELECT id, currency, status, type FROM accounts WHERE id = ANY($1::uuid[]) ORDER BY id FOR UPDATE
+ 14116 |   26727.9 |    1.89 | SELECT account_id, coalesce(sum(CASE WHEN direction = $2 THEN amount ELSE -amount END), $3)::text AS
+ 21177 |    4621.5 |    0.22 | SELECT assert_transaction_balanced(NEW.id)
+  7059 |    2481.0 |    0.35 | INSERT INTO ledger_entries (transaction_id, account_id, direction, amount) SELECT $1::uuid, account_
+  7059 |    1314.8 |    0.19 | INSERT INTO transactions (type, status, amount, currency, reverses_id, metadata, completed_at) VALUE
+  7059 |    1195.5 |    0.17 | UPDATE idempotency_keys SET response_status = $2, response_body = $3, transaction_id = $4 WHERE key 
+  7059 |    1088.5 |    0.15 | INSERT INTO idempotency_keys (key, endpoint, request_hash, expires_at) VALUES ($1, $2, $3, now() + m
+ 21177 |     812.4 |    0.04 | SELECT a.id FROM ledger_entries e JOIN accounts a ON a.id = e.account_id WHERE e.transaction_id = p_
+  7059 |     788.1 |    0.11 | INSERT INTO outbox_events (aggregate_type, aggregate_id, event_type, payload) VALUES ($1, $2, $3, $4
+ 21177 |     603.8 |    0.03 | SELECT count(*), coalesce(sum(amount) FILTER (WHERE direction = 'DEBIT'), 0), coalesce(sum(amount) F
+(10 rows)
+
