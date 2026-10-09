@@ -1,0 +1,277 @@
+{
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": {
+      "setup": {
+        "checks": {
+          "user created": {
+            "name": "user created",
+            "path": "::setup::user created",
+            "id": "bd2b00ce50ad9f3bd4cf332255cdea5d",
+            "passes": 1,
+            "fails": 0
+          },
+          "account created": {
+            "id": "5fa7a2bc8a607848be2549e75d11ae5c",
+            "passes": 50,
+            "fails": 0,
+            "name": "account created",
+            "path": "::setup::account created"
+          },
+          "deposit accepted": {
+            "name": "deposit accepted",
+            "path": "::setup::deposit accepted",
+            "id": "b49c238966b751b1f8323e2f959590f0",
+            "passes": 50,
+            "fails": 0
+          }
+        },
+        "name": "setup",
+        "path": "::setup",
+        "id": "5c0f8025f7e0b6654089e5b00e950f1a",
+        "groups": {}
+      },
+      "teardown": {
+        "groups": {},
+        "checks": {
+          "ledger still balances after load": {
+            "fails": 0,
+            "name": "ledger still balances after load",
+            "path": "::teardown::ledger still balances after load",
+            "id": "e99647d37f816aba3556fed1d726b1cb",
+            "passes": 1
+          }
+        },
+        "name": "teardown",
+        "path": "::teardown",
+        "id": "a8a9942382e8ffe2e56ef29e664b8229"
+      }
+    },
+    "checks": {
+      "balance read": {
+        "path": "::balance read",
+        "id": "f24413ac810c43cd9faa1e50ab020835",
+        "passes": 33430,
+        "fails": 2,
+        "name": "balance read"
+      },
+      "history read": {
+        "fails": 4,
+        "name": "history read",
+        "path": "::history read",
+        "id": "5b16f65dae4f0abfc631186853ed1c00",
+        "passes": 33428
+      }
+    }
+  },
+  "metrics": {
+    "vus_max": {
+      "max": 40,
+      "value": 40,
+      "min": 40
+    },
+    "http_req_duration{operation:history}": {
+      "med": 46.08395,
+      "p(95)": 73.40757,
+      "p(99)": 99.91466500000011,
+      "max": 9730.2992,
+      "avg": 54.937987500000354,
+      "thresholds": {
+        "p(95)<120": false
+      }
+    },
+    "http_req_receiving": {
+      "avg": 0.31675433761792243,
+      "med": 0,
+      "p(95)": 0.9951,
+      "p(99)": 1.5139200000000013,
+      "max": 426.5907
+    },
+    "vus": {
+      "value": 40,
+      "min": 0,
+      "max": 40
+    },
+    "http_req_failed": {
+      "passes": 10,
+      "fails": 71331,
+      "thresholds": {
+        "rate<0.01": false
+      },
+      "value": 0.00014017185068894466
+    },
+    "http_req_waiting": {
+      "avg": 66.57831159922083,
+      "med": 45.9444,
+      "p(95)": 187.7917,
+      "p(99)": 330.86192000000386,
+      "max": 10220.5333
+    },
+    "iteration_duration": {
+      "avg": 128.34314729440715,
+      "med": 94.644,
+      "p(95)": 244.6819349999999,
+      "p(99)": 476.47703200000024,
+      "max": 10557.7796
+    },
+    "ledger_fault_rate": {
+      "passes": 3,
+      "fails": 4372,
+      "thresholds": {
+        "rate==0": true
+      },
+      "value": 0.0006857142857142857
+    },
+    "ledger_transfer_duration": {
+      "p(95)": 425.9919449999998,
+      "p(99)": 624.2925389999998,
+      "max": 10220.5333,
+      "avg": 269.0993303625377,
+      "med": 218.08315,
+      "thresholds": {
+        "p(95)<300": true
+      }
+    },
+    "http_req_sending": {
+      "avg": 0.029471203094994486,
+      "med": 0,
+      "p(95)": 0,
+      "p(99)": 0.7062200000000012,
+      "max": 11.9994
+    },
+    "http_req_duration{operation:balance}": {
+      "p(99)": 97.56965300000005,
+      "max": 9703.6518,
+      "avg": 52.03305134003345,
+      "med": 45.04315,
+      "p(95)": 71.99540499999998,
+      "thresholds": {
+        "p(95)<80": false
+      }
+    },
+    "http_req_connecting": {
+      "avg": 0.0006889684753507799,
+      "med": 0,
+      "p(95)": 0,
+      "p(99)": 0,
+      "max": 2.1941
+    },
+    "iterations": {
+      "count": 37404,
+      "rate": 306.9865704085998
+    },
+    "http_req_duration{expected_response:true}": {
+      "avg": 65.9684526699476,
+      "med": 46.2289,
+      "p(95)": 188.04039999999998,
+      "p(99)": 331.3911199999995,
+      "max": 10220.5333
+    },
+    "ledger_succeeded": {
+      "count": 4371,
+      "rate": 35.87419257983076
+    },
+    "http_req_blocked": {
+      "avg": 0.010414702625418775,
+      "med": 0,
+      "p(95)": 0,
+      "p(99)": 0.5174800000000017,
+      "max": 52.2095
+    },
+    "data_sent": {
+      "count": 10544061,
+      "rate": 86538.47515156324
+    },
+    "ledger_contention": {
+      "count": 1,
+      "rate": 0.008207319281590198
+    },
+    "data_received": {
+      "rate": 1225356.4127911776,
+      "count": 149300444
+    },
+    "http_req_tls_handshaking": {
+      "avg": 0,
+      "med": 0,
+      "p(95)": 0,
+      "p(99)": 0,
+      "max": 0
+    },
+    "checks": {
+      "passes": 66960,
+      "fails": 6,
+      "value": 0.9999104022937013
+    },
+    "ledger_faults": {
+      "count": 3,
+      "rate": 0.024621957844770597
+    },
+    "http_req_duration": {
+      "p(99)": 333.0823800000005,
+      "max": 10220.5333,
+      "avg": 66.92453713993412,
+      "med": 46.2307,
+      "p(95)": 188.1809
+    },
+    "http_reqs": {
+      "rate": 585.5183648679264,
+      "count": 71341
+    }
+  },
+  "setup_data": {
+    "accounts": [
+      "c7a4336f-6c93-4583-8a32-8794af6a1b27",
+      "f7ca1291-48b4-422e-8f71-7eb93189f9f9",
+      "c3f568a4-c5c1-480a-8f4a-a548803d8356",
+      "63d60771-eb44-4e47-a40e-56a927b0c3bd",
+      "ebc5e707-55f0-48d0-a963-3dd9d74a313e",
+      "f1faace2-44e0-40d6-b248-899aafe761fd",
+      "8587c628-fb43-4b9c-85bd-45c3b58baa6d",
+      "3912eb86-2d0b-4cfd-bef8-7e0cdbb07f1c",
+      "68f3999a-0c87-4c95-92c0-f2cb7c66523d",
+      "15914f44-e656-41f5-a4e8-590fe9aa1c69",
+      "14ca9d38-d0ec-448a-b332-4d452610686a",
+      "b175ed4f-41cf-4fba-bf49-5d444fff1419",
+      "7e61d52b-9540-4bd4-bdd8-fc610b523b2e",
+      "3ec79f50-70da-462f-8a7f-f29706d7271f",
+      "4628588a-8028-49fe-be6d-5d00cf88a277",
+      "77473a45-c5dd-41b6-9592-fbb47c1d8a23",
+      "9f1fc731-de5c-454b-ab3d-084fc6a06e68",
+      "77f11050-b4d0-418a-85f4-2c89c932ecaf",
+      "5cd2a703-f379-4255-b086-1cb42de904b8",
+      "145002d3-f6db-4e5a-acad-f1b2ab23154a",
+      "800dbe44-0527-4123-94b1-4cc084993ff5",
+      "052d08c8-9f55-4bd9-9b3c-178e185cb614",
+      "b0bc6799-964b-463e-a2fd-3f7865b6ed41",
+      "12e78c12-ace0-4581-8273-a5156e98cef2",
+      "bd286119-3e77-445c-b0c2-ce251e00262a",
+      "6e7f399e-71f8-4a42-abd4-a80b8fd941fc",
+      "bc954aed-8170-4958-9455-3584e3d15ca2",
+      "9a136bb3-8c77-4338-84b5-20ab72935c5b",
+      "ec0a926b-eb87-46ab-b872-dec2178efc3d",
+      "f0bb2e3d-dfa8-4d2f-b154-2c1e858ddb89",
+      "a6e75f18-29b7-47af-af01-4b2df14976c4",
+      "6f4f3bfd-ec1e-40e8-b42c-8647042e0d94",
+      "18a6626e-5ef4-45f2-be95-8649bc7c48cf",
+      "6332e459-1195-496a-9cf6-6419b4cbcd41",
+      "b7d21d17-122f-4c87-a0f7-d0ae0e801c24",
+      "43e75104-ad3f-4528-8633-bdd7c6e7c257",
+      "35ee89a9-312d-4f81-b928-a561b683f5f7",
+      "2f2d8fbc-caa0-48ad-b44c-e4f0e84266f6",
+      "b656dc7b-970a-4709-b77c-cf23416610fa",
+      "19429056-a789-4f9e-9fc3-99e5ff44bf66",
+      "049ffd4f-58f9-42d8-afad-7f79b84a4681",
+      "3712935e-97f3-43df-9a0d-00fbe309b3e5",
+      "a0c849b1-d5fd-4ea2-b386-2d8c8320fb06",
+      "53afaaa9-a08c-49ff-95ce-39a32d3d0591",
+      "b07c1ef9-4514-4216-b58e-0ced4498cb69",
+      "587f7fac-6ad6-4dff-8397-8fcb3af512b4",
+      "77e95b3e-4baf-4353-b97a-095627f2bd6f",
+      "e60163df-c65a-4369-8850-0afb24fcf826",
+      "c8ed1e5b-f310-455e-bb62-6f3c027fc1ac",
+      "a7c87b76-0d97-43a1-b082-babf2f12344a"
+    ]
+  }
+}
