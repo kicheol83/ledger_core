@@ -2,14 +2,28 @@ import http from 'k6/http';
 import { check } from 'k6';
 import { assertLedgerBalanced, BASE_URL, classify, headers, provisionAccounts, transfer } from './lib/api.js';
 
-export const options = {
-  scenarios: {
-    reads: {
+const READ_RATE = Number(__ENV.READ_RATE || 0);
+
+const reads = READ_RATE
+  ? {
+      executor: 'constant-arrival-rate',
+      rate: READ_RATE,
+      timeUnit: '1s',
+      duration: '2m',
+      preAllocatedVUs: 30,
+      maxVUs: 60,
+      exec: 'readPath',
+    }
+  : {
       executor: 'constant-vus',
       vus: 30,
       duration: '2m',
       exec: 'readPath',
-    },
+    };
+
+export const options = {
+  scenarios: {
+    reads,
     writes: {
       executor: 'constant-vus',
       vus: 10,
