@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Empty, Failure, Loading } from '../components/state';
+import { useI18n } from '../i18n';
 import { ApiError, get, post } from '../lib/api';
 import { formatAmount, formatTimestamp, shortId, sumMinorUnits } from '../lib/money';
 import type { HistoryEntry, Transaction } from '../lib/types';
@@ -10,6 +11,7 @@ import './Journal.css';
 const PAGE_SIZE = 25;
 
 export function Journal(): JSX.Element {
+  const { t } = useI18n();
   const [params, setParams] = useSearchParams();
   const accountId = params.get('accountId') ?? '';
 
@@ -51,17 +53,14 @@ export function Journal(): JSX.Element {
   return (
     <div className="stack">
       <header className="stack">
-        <h1>Journal</h1>
-        <p className="caption">
-          Every movement on one account, newest first. Amounts sit on the side they moved: out on
-          the left, in on the right.
-        </p>
+        <h1>{t.navJournal}</h1>
+        <p className="caption">{t.journalIntro}</p>
       </header>
 
       <section className="card picker picker--single">
         <div className="picker__field">
           <label className="label" htmlFor="accountId">
-            Account id
+            {t.accountId}
           </label>
           <div className="picker__row">
             <input
@@ -72,14 +71,14 @@ export function Journal(): JSX.Element {
               onChange={(event) => setDraft(event.target.value)}
             />
             <button type="button" className="button" onClick={() => show(draft.trim())}>
-              Show journal
+              {t.showJournal}
             </button>
           </div>
         </div>
       </section>
 
       {!accountId ? (
-        <Empty title="Enter an account id to read its journal." />
+        <Empty title={t.journalEnterId} />
       ) : history.error ? (
         <Failure
           message={history.error.message}
@@ -88,9 +87,9 @@ export function Journal(): JSX.Element {
           onRetry={history.reload}
         />
       ) : history.loading && rows.length === 0 ? (
-        <Loading label="Reading the journal…" />
+        <Loading label={t.journalLoading} />
       ) : rows.length === 0 ? (
-        <Empty title="Nothing has moved on this account yet." />
+        <Empty title={t.journalEmpty} />
       ) : (
         <>
           <Ledger rows={rows} accountId={accountId} onChanged={() => show(accountId)} />
@@ -102,10 +101,10 @@ export function Journal(): JSX.Element {
               disabled={history.refreshing}
               onClick={() => setCursor(history.data?.nextCursor ?? undefined)}
             >
-              {history.refreshing ? 'Reading…' : 'Earlier entries'}
+              {history.refreshing ? t.reading : t.earlierEntries}
             </button>
           ) : (
-            <p className="caption journal__end">That is the whole journal for this account.</p>
+            <p className="caption journal__end">{t.journalEnd}</p>
           )}
         </>
       )}
@@ -122,6 +121,7 @@ function Ledger({
   accountId: string;
   onChanged: () => void;
 }): JSX.Element {
+  const { t } = useI18n();
   const [expanded, setExpanded] = useState<string | undefined>(undefined);
 
   return (
@@ -129,9 +129,9 @@ function Ledger({
       <div className="ledger__rule" aria-hidden="true" />
 
       <header className="ledger__head">
-        <span className="label">Out</span>
-        <span className="label ledger__head-meta">Entry</span>
-        <span className="label">In</span>
+        <span className="label">{t.out}</span>
+        <span className="label ledger__head-meta">{t.entry}</span>
+        <span className="label">{t.in}</span>
       </header>
 
       <ol className="ledger__rows">
@@ -164,6 +164,7 @@ function Row({
   onToggle: () => void;
   onChanged: () => void;
 }): JSX.Element {
+  const { t } = useI18n();
   const outgoing = row.direction === 'DEBIT';
   const reference =
     typeof row.metadata['reference'] === 'string' ? row.metadata['reference'] : undefined;
@@ -177,9 +178,11 @@ function Row({
         </span>
 
         <span className="row__meta">
-          <span className="row__type">{label(row.type)}</span>
+          <span className="row__type">{t.transactionType[row.type]}</span>
           <span className="row__when caption figure">{formatTimestamp(row.createdAt)}</span>
-          {row.status === 'REVERSED' ? <span className="chip chip--reversed">Reversed</span> : null}
+          {row.status === 'REVERSED' ? (
+            <span className="chip chip--reversed">{t.reversed}</span>
+          ) : null}
           {reference ? <span className="caption">{reference}</span> : null}
           {reason ? <span className="caption">{reason}</span> : null}
         </span>
@@ -205,6 +208,7 @@ function Detail({
   accountId: string;
   onChanged: () => void;
 }): JSX.Element {
+  const { t } = useI18n();
   const detail = useAsync(
     () => get<Transaction>(`/transactions/${transactionId}`),
     [transactionId],
@@ -213,11 +217,11 @@ function Detail({
   const [reversalError, setReversalError] = useState<string | undefined>(undefined);
 
   if (detail.loading) {
-    return <Loading label="Reading both sides…" />;
+    return <Loading label={t.readingBothSides} />;
   }
 
   if (detail.error || !detail.data) {
-    return <Failure message={detail.error?.message ?? 'Could not read this transaction.'} />;
+    return <Failure message={detail.error?.message ?? t.readTransactionFailed} />;
   }
 
   const transaction = detail.data;
@@ -237,7 +241,7 @@ function Detail({
       });
       onChanged();
     } catch (caught) {
-      setReversalError(caught instanceof ApiError ? caught.message : 'Could not reverse it.');
+      setReversalError(caught instanceof ApiError ? caught.message : t.reverseFailed);
     } finally {
       setReversing(false);
     }
@@ -247,35 +251,33 @@ function Detail({
     <div className="detail">
       <dl className="detail__facts">
         <div>
-          <dt className="label">Transaction</dt>
+          <dt className="label">{t.transaction}</dt>
           <dd className="figure">{transaction.id}</dd>
         </div>
         <div>
-          <dt className="label">Status</dt>
-          <dd>{transaction.status}</dd>
+          <dt className="label">{t.status}</dt>
+          <dd>{t.transactionStatus[transaction.status]}</dd>
         </div>
         {transaction.reversesId ? (
           <div>
-            <dt className="label">Undoes</dt>
+            <dt className="label">{t.undoes}</dt>
             <dd className="figure">{shortId(transaction.reversesId)}</dd>
           </div>
         ) : null}
       </dl>
 
       <table className="entries">
-        <caption className="sr-only">
-          Every ledger entry belonging to this transaction, with its account and direction.
-        </caption>
+        <caption className="sr-only">{t.entriesCaption}</caption>
         <thead>
           <tr>
             <th scope="col" className="label">
-              Account
+              {t.account}
             </th>
             <th scope="col" className="label entries__out">
-              Out
+              {t.out}
             </th>
             <th scope="col" className="label entries__in">
-              In
+              {t.in}
             </th>
           </tr>
         </thead>
@@ -288,7 +290,7 @@ function Detail({
               <td className="figure">
                 {shortId(entry.accountId)}
                 {entry.accountId === accountId ? (
-                  <span className="caption"> · this account</span>
+                  <span className="caption">{t.thisAccount}</span>
                 ) : null}
               </td>
               <td className="figure entries__out">
@@ -307,7 +309,7 @@ function Detail({
         <tfoot>
           <tr>
             <th scope="row" className="label">
-              Sum
+              {t.sum}
             </th>
             <td colSpan={2} className="figure entries__sum">
               {formatAmount(sumMinorUnits(signed), transaction.currency)} {transaction.currency}
@@ -324,11 +326,9 @@ function Detail({
             disabled={reversing}
             onClick={() => void reverse()}
           >
-            {reversing ? 'Reversing…' : 'Reverse this transaction'}
+            {reversing ? t.reversing : t.reverseTransaction}
           </button>
-          <p className="caption">
-            Writes the mirror image as a new transaction. Nothing here is edited or removed.
-          </p>
+          <p className="caption">{t.reverseNote}</p>
           {reversalError ? (
             <p className="caption picker__error" role="alert">
               {reversalError}
@@ -338,17 +338,4 @@ function Detail({
       ) : null}
     </div>
   );
-}
-
-function label(type: HistoryEntry['type']): string {
-  switch (type) {
-    case 'TRANSFER':
-      return 'Transfer';
-    case 'DEPOSIT':
-      return 'Deposit';
-    case 'WITHDRAWAL':
-      return 'Withdrawal';
-    case 'REVERSAL':
-      return 'Reversal';
-  }
 }

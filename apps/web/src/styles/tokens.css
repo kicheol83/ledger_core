@@ -3,7 +3,7 @@
   --fault: #94272a;
 
   --font-display: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
-  --font-body: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-body: 'IBM Plex Sans', 'IBM Plex Sans KR', system-ui, -apple-system, sans-serif;
   --font-figure: 'IBM Plex Mono', ui-monospace, monospace;
 
   --size-caption: 0.6875rem;

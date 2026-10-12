@@ -57,17 +57,27 @@ export function sumMinorUnits(values: string[]): string {
   return values.reduce((total, value) => total + BigInt(value), 0n).toString();
 }
 
-export class AmountError extends Error {}
+export type AmountErrorCode = 'empty' | 'format' | 'noDecimals' | 'tooManyDecimals' | 'notPositive';
+
+export class AmountError extends Error {
+  constructor(
+    message: string,
+    readonly code: AmountErrorCode,
+    readonly exponent = 0,
+  ) {
+    super(message);
+  }
+}
 
 export function toMinorUnits(input: string, currency: string): string {
   const trimmed = input.trim().replace(/[\s\u2009,]/g, '');
 
   if (trimmed.length === 0) {
-    throw new AmountError('Enter an amount.');
+    throw new AmountError('Enter an amount.', 'empty');
   }
 
   if (!/^\d+(\.\d+)?$/.test(trimmed)) {
-    throw new AmountError('Use digits and at most one decimal point.');
+    throw new AmountError('Use digits and at most one decimal point.', 'format');
   }
 
   const exponent = exponentFor(currency);
@@ -78,13 +88,15 @@ export function toMinorUnits(input: string, currency: string): string {
       exponent === 0
         ? `${currency} has no smaller unit, so no decimals.`
         : `${currency} goes to ${exponent} decimal places.`,
+      exponent === 0 ? 'noDecimals' : 'tooManyDecimals',
+      exponent,
     );
   }
 
   const minorUnits = BigInt(whole + fraction.padEnd(exponent, '0'));
 
   if (minorUnits <= 0n) {
-    throw new AmountError('Enter an amount above zero.');
+    throw new AmountError('Enter an amount above zero.', 'notPositive');
   }
 
   return minorUnits.toString();
@@ -109,7 +121,11 @@ export function formatTimestamp(iso: string): string {
   );
 }
 
-export function formatRelative(iso: string): string {
+export function formatRelative(
+  iso: string,
+  ago: (value: number, unit: 's' | 'm' | 'h' | 'd') => string = (value, unit) =>
+    `${value}${unit} ago`,
+): string {
   const then = new Date(iso).getTime();
 
   if (Number.isNaN(then)) {
@@ -118,8 +134,8 @@ export function formatRelative(iso: string): string {
 
   const seconds = Math.floor((Date.now() - then) / 1000);
 
-  if (seconds < 60) return `${seconds}s ago`;
-  if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
-  if (seconds < 86_400) return `${Math.floor(seconds / 3600)}h ago`;
-  return `${Math.floor(seconds / 86_400)}d ago`;
+  if (seconds < 60) return ago(seconds, 's');
+  if (seconds < 3600) return ago(Math.floor(seconds / 60), 'm');
+  if (seconds < 86_400) return ago(Math.floor(seconds / 3600), 'h');
+  return ago(Math.floor(seconds / 86_400), 'd');
 }

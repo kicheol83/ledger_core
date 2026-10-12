@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useI18n } from '../i18n';
 import { ApiError, newIdempotencyKey, postWithMeta } from '../lib/api';
 import { AmountError, formatAmount, formatMoney, shortId, toMinorUnits } from '../lib/money';
 import './Transfer.css';
@@ -27,6 +28,7 @@ interface Result {
 }
 
 export function Transfer(): JSX.Element {
+  const { t } = useI18n();
   const [params] = useSearchParams();
 
   const [operation, setOperation] = useState<Operation>('transfer');
@@ -51,7 +53,11 @@ export function Transfer(): JSX.Element {
       minorUnits = toMinorUnits(amount, currency);
       setAmountError(undefined);
     } catch (error) {
-      setAmountError(error instanceof AmountError ? error.message : 'Check the amount.');
+      setAmountError(
+        error instanceof AmountError
+          ? t.amountError(error.code, currency, error.exponent)
+          : t.checkAmount,
+      );
       return;
     }
 
@@ -123,14 +129,11 @@ export function Transfer(): JSX.Element {
   return (
     <div className="stack">
       <header className="stack">
-        <h1>Move money</h1>
-        <p className="caption">
-          Each of these writes two entries that sum to zero. Send the same request several times
-          with one key to see it applied once.
-        </p>
+        <h1>{t.navTransfer}</h1>
+        <p className="caption">{t.transferIntro}</p>
       </header>
 
-      <div className="segmented" role="tablist" aria-label="Operation">
+      <div className="segmented" role="tablist" aria-label={t.operationAria}>
         {(['transfer', 'deposit', 'withdraw'] as const).map((option) => (
           <button
             key={option}
@@ -142,7 +145,11 @@ export function Transfer(): JSX.Element {
             }
             onClick={() => setOperation(option)}
           >
-            {option === 'transfer' ? 'Transfer' : option === 'deposit' ? 'Deposit' : 'Withdraw'}
+            {option === 'transfer'
+              ? t.opTransfer
+              : option === 'deposit'
+                ? t.opDeposit
+                : t.opWithdraw}
           </button>
         ))}
       </div>
@@ -150,7 +157,7 @@ export function Transfer(): JSX.Element {
       <section className="card form">
         {operation === 'transfer' ? (
           <>
-            <Field label="From account" id="from">
+            <Field label={t.fromAccount} id="from">
               <input
                 id="from"
                 className="input figure"
@@ -158,7 +165,7 @@ export function Transfer(): JSX.Element {
                 onChange={(e) => setFrom(e.target.value)}
               />
             </Field>
-            <Field label="To account" id="to">
+            <Field label={t.toAccount} id="to">
               <input
                 id="to"
                 className="input figure"
@@ -168,7 +175,7 @@ export function Transfer(): JSX.Element {
             </Field>
           </>
         ) : (
-          <Field label="Account" id="account">
+          <Field label={t.account} id="account">
             <input
               id="account"
               className="input figure"
@@ -179,7 +186,7 @@ export function Transfer(): JSX.Element {
         )}
 
         <div className="form__row">
-          <Field label="Amount" id="amount" error={amountError}>
+          <Field label={t.amount} id="amount" error={amountError}>
             <input
               id="amount"
               className="input figure"
@@ -190,7 +197,7 @@ export function Transfer(): JSX.Element {
             />
           </Field>
 
-          <Field label="Currency" id="currency">
+          <Field label={t.currency} id="currency">
             <select
               id="currency"
               className="input figure"
@@ -207,7 +214,7 @@ export function Transfer(): JSX.Element {
         </div>
 
         <div className="form__key">
-          <Field label="Idempotency key" id="key">
+          <Field label={t.idempotencyKey} id="key">
             <div className="picker__row">
               <input
                 id="key"
@@ -220,18 +227,15 @@ export function Transfer(): JSX.Element {
                 className="button button--quiet"
                 onClick={() => setKey(newIdempotencyKey())}
               >
-                New key
+                {t.newKey}
               </button>
             </div>
           </Field>
-          <p className="caption">
-            Keep the key and press again: the second request returns the first one&apos;s stored
-            answer instead of moving money twice. Change the key and it becomes a new instruction.
-          </p>
+          <p className="caption">{t.keyHelp}</p>
         </div>
 
         <div className="form__row form__submit">
-          <Field label="Copies to send at once" id="copies">
+          <Field label={t.copies} id="copies">
             <input
               id="copies"
               className="input figure"
@@ -244,36 +248,25 @@ export function Transfer(): JSX.Element {
           </Field>
 
           <button type="button" className="button" disabled={busy} onClick={() => void submit()}>
-            {busy ? 'Sending…' : copies === 1 ? 'Send' : `Send ${copies} copies`}
+            {busy ? t.sending : copies === 1 ? t.send : t.sendCopies(copies)}
           </button>
         </div>
       </section>
 
       {attempts.length > 0 ? (
         <section className="stack">
-          <h2>What happened</h2>
+          <h2>{t.whatHappened}</h2>
 
           <p className="outcome-summary">
-            {applied === 1 ? 'Money moved once' : `Money moved ${applied} times`}
-            {replayed > 0
-              ? `, and ${replayed} ${replayed === 1 ? 'copy' : 'copies'} got the stored answer back`
-              : ''}
-            .
+            {t.movedTimes(applied)}
+            {replayed > 0 ? t.replayedCopies(replayed) : ''}.
           </p>
 
           <ol className="attempts">
             {attempts.map((attempt) => (
               <li key={attempt.ordinal} className={`attempt attempt--${attempt.outcome}`}>
                 <span className="attempt__ordinal figure">#{attempt.ordinal}</span>
-                <span className="attempt__outcome">
-                  {attempt.outcome === 'applied'
-                    ? 'Applied'
-                    : attempt.outcome === 'replayed'
-                      ? 'Replayed'
-                      : attempt.outcome === 'refused'
-                        ? 'Refused'
-                        : 'Failed'}
-                </span>
+                <span className="attempt__outcome">{t.outcome[attempt.outcome]}</span>
                 <span className="attempt__detail caption">
                   {attempt.transactionId ? (
                     <span className="figure">{shortId(attempt.transactionId)}</span>
@@ -320,27 +313,29 @@ function Field({
 }
 
 function BalancedEntries({ amount, currency }: { amount: string; currency: string }): JSX.Element {
+  const { t } = useI18n();
+
   return (
     <figure className="taccount">
-      <figcaption className="label">The entries written</figcaption>
+      <figcaption className="label">{t.entriesWritten}</figcaption>
 
       <div className="taccount__body">
         <div className="taccount__side taccount__side--debit">
-          <span className="label">Debit</span>
+          <span className="label">{t.debit}</span>
           <span className="taccount__amount figure">{formatAmount(amount, currency)}</span>
         </div>
 
         <div className="taccount__rule" aria-hidden="true" />
 
         <div className="taccount__side taccount__side--credit">
-          <span className="label">Credit</span>
+          <span className="label">{t.credit}</span>
           <span className="taccount__amount figure">{formatAmount(amount, currency)}</span>
         </div>
       </div>
 
       <p className="taccount__sum caption">
-        Debits minus credits: <span className="figure">{formatMoney('0', currency)}</span> — the
-        transaction balances, which is what the database checked before it committed.
+        {t.debitsMinusCredits} <span className="figure">{formatMoney('0', currency)}</span>{' '}
+        {t.balancesNote}
       </p>
     </figure>
   );
