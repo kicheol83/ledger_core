@@ -91,6 +91,12 @@ export class TransactionManager {
     options: TransactionOptions,
   ): Promise<T> {
     const client = await this.pool.connect();
+    let broken: Error | undefined;
+    const onConnectionError = (error: Error): void => {
+      broken = error;
+      this.logger.error(`connection lost inside a transaction: ${error.message}`);
+    };
+    client.on('error', onConnectionError);
 
     try {
       const isolation = options.isolation ?? 'READ COMMITTED';
@@ -109,8 +115,14 @@ export class TransactionManager {
 
       await client.query('COMMIT');
       return result;
+    } catch (error) {
+      if (!(error as { code?: string }).code) {
+        broken = broken ?? (error as Error);
+      }
+      throw error;
     } finally {
-      client.release();
+      client.off('error', onConnectionError);
+      client.release(broken);
     }
   }
 }
