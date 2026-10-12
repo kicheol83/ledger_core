@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Empty, Failure, Loading } from '../components/state';
+import { useI18n, type Messages } from '../i18n';
 import { get } from '../lib/api';
 import { formatRelative, formatTimestamp, shortId } from '../lib/money';
 import { useAsync, usePolling } from '../lib/useAsync';
@@ -26,14 +27,10 @@ interface Stats {
   oldestPendingAgeSeconds: number | null;
 }
 
-const FILTERS: Array<{ value: Status | 'ALL'; label: string }> = [
-  { value: 'ALL', label: 'Everything' },
-  { value: 'PENDING', label: 'Waiting' },
-  { value: 'PUBLISHED', label: 'Delivered' },
-  { value: 'FAILED', label: 'Given up' },
-];
+const FILTERS: Array<Status | 'ALL'> = ['ALL', 'PENDING', 'PUBLISHED', 'FAILED'];
 
 export function Delivery(): JSX.Element {
+  const { t } = useI18n();
   const [filter, setFilter] = useState<Status | 'ALL'>('ALL');
   const [live, setLive] = useState(true);
 
@@ -57,29 +54,26 @@ export function Delivery(): JSX.Element {
   return (
     <div className="stack">
       <header className="stack">
-        <h1>Delivery</h1>
-        <p className="caption">
-          Every movement of money writes an event in the same transaction as its entries. A separate
-          worker takes them from here and sends them out.
-        </p>
+        <h1>{t.navDelivery}</h1>
+        <p className="caption">{t.deliveryIntro}</p>
       </header>
 
-      {stats.data ? <Health stats={stats.data} /> : <Loading label="Reading the queue…" />}
+      {stats.data ? <Health stats={stats.data} /> : <Loading label={t.queueLoading} />}
 
       <div className="delivery__controls">
-        <div className="segmented" role="tablist" aria-label="Filter events">
+        <div className="segmented" role="tablist" aria-label={t.filterAria}>
           {FILTERS.map((option) => (
             <button
-              key={option.value}
+              key={option}
               type="button"
               role="tab"
-              aria-selected={filter === option.value}
+              aria-selected={filter === option}
               className={
-                filter === option.value ? 'segmented__item segmented__item--on' : 'segmented__item'
+                filter === option ? 'segmented__item segmented__item--on' : 'segmented__item'
               }
-              onClick={() => setFilter(option.value)}
+              onClick={() => setFilter(option)}
             >
-              {option.label}
+              {option === 'ALL' ? t.filterAll : stateLabel(t, option)}
             </button>
           ))}
         </div>
@@ -90,7 +84,7 @@ export function Delivery(): JSX.Element {
             checked={live}
             onChange={(event) => setLive(event.target.checked)}
           />
-          <span className="label">Refresh every 2s</span>
+          <span className="label">{t.refreshEvery}</span>
         </label>
       </div>
 
@@ -102,19 +96,15 @@ export function Delivery(): JSX.Element {
           onRetry={refresh}
         />
       ) : events.loading && !events.data ? (
-        <Loading label="Reading events…" />
+        <Loading label={t.eventsLoading} />
       ) : events.data && events.data.events.length > 0 ? (
         <EventTable events={events.data.events} />
       ) : (
         <Empty
-          title={
-            filter === 'FAILED'
-              ? 'Nothing has been given up on. Every event has been delivered or is still trying.'
-              : 'No events yet. Move some money and they will appear here.'
-          }
+          title={filter === 'FAILED' ? t.noneGivenUp : t.noEvents}
           action={
             <Link className="button" to="/transfer">
-              Move money
+              {t.navTransfer}
             </Link>
           }
         />
@@ -124,19 +114,20 @@ export function Delivery(): JSX.Element {
 }
 
 function Health({ stats }: { stats: Stats }): JSX.Element {
+  const { t } = useI18n();
   const stalled = (stats.oldestPendingAgeSeconds ?? 0) > 60;
 
   return (
     <div className={stalled || stats.failed > 0 ? 'health health--attention' : 'health'}>
-      <Metric label="Waiting" value={String(stats.pending)} />
-      <Metric label="Delivered" value={String(stats.published)} />
+      <Metric label={t.waiting} value={String(stats.pending)} />
+      <Metric label={t.delivered} value={String(stats.published)} />
       <Metric
-        label="Given up"
+        label={t.givenUp}
         value={String(stats.failed)}
         tone={stats.failed > 0 ? 'fault' : undefined}
       />
       <Metric
-        label="Oldest waiting"
+        label={t.oldestWaiting}
         value={
           stats.oldestPendingAgeSeconds === null
             ? '—'
@@ -146,11 +137,7 @@ function Health({ stats }: { stats: Stats }): JSX.Element {
       />
 
       <p className="health__note caption">
-        {stats.failed > 0
-          ? 'Some events were given up on. Nothing will retry them on its own, a person has to decide what to do.'
-          : stalled
-            ? 'Events have been waiting longer than expected. Check that the worker process is running.'
-            : 'The queue is draining. Money already moved regardless, delivery is what happens afterwards.'}
+        {stats.failed > 0 ? t.healthFailed : stalled ? t.healthStalled : t.healthOk}
       </p>
     </div>
   );
@@ -180,27 +167,27 @@ function Metric({
 }
 
 function EventTable({ events }: { events: OutboxEvent[] }): JSX.Element {
+  const { t } = useI18n();
+
   return (
     <table className="events-table">
-      <caption className="sr-only">
-        Outbox events with their delivery status, attempt count and last error.
-      </caption>
+      <caption className="sr-only">{t.eventsCaption}</caption>
       <thead>
         <tr>
           <th scope="col" className="label">
-            Event
+            {t.event}
           </th>
           <th scope="col" className="label">
-            Transaction
+            {t.transaction}
           </th>
           <th scope="col" className="label">
-            State
+            {t.state}
           </th>
           <th scope="col" className="label events-table__numeric">
-            Tries
+            {t.tries}
           </th>
           <th scope="col" className="label">
-            When
+            {t.when}
           </th>
         </tr>
       </thead>
@@ -223,12 +210,12 @@ function EventTable({ events }: { events: OutboxEvent[] }): JSX.Element {
             </td>
             <td>
               <span className={`chip chip--${event.status.toLowerCase()}`}>
-                {stateLabel(event.status)}
+                {stateLabel(t, event.status)}
               </span>
             </td>
             <td className="figure events-table__numeric">{event.attempts}</td>
             <td>
-              <span className="figure">{formatRelative(event.createdAt)}</span>
+              <span className="figure">{formatRelative(event.createdAt, t.ago)}</span>
               <span className="caption events-table__exact figure">
                 {formatTimestamp(event.publishedAt ?? event.createdAt)}
               </span>
@@ -240,13 +227,13 @@ function EventTable({ events }: { events: OutboxEvent[] }): JSX.Element {
   );
 }
 
-function stateLabel(status: Status): string {
+function stateLabel(t: Messages, status: Status): string {
   switch (status) {
     case 'PENDING':
-      return 'Waiting';
+      return t.waiting;
     case 'PUBLISHED':
-      return 'Delivered';
+      return t.delivered;
     case 'FAILED':
-      return 'Given up';
+      return t.givenUp;
   }
 }

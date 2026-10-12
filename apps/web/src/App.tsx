@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Shell } from './components/Shell';
+import { useI18n } from './i18n';
 import { Accounts } from './routes/Accounts';
 import { Delivery } from './routes/Delivery';
 import { Journal } from './routes/Journal';
@@ -21,10 +22,12 @@ export function App(): JSX.Element {
 }
 
 function NotFound(): JSX.Element {
+  const { t } = useI18n();
+
   return (
     <div className="stack">
-      <h1>No such page</h1>
-      <p className="caption">Pick a section from the list on the left.</p>
+      <h1>{t.notFoundTitle}</h1>
+      <p className="caption">{t.notFoundHint}</p>
     </div>
   );
 }

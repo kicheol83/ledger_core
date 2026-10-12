@@ -1,3 +1,4 @@
+import { useI18n } from '../i18n';
 import './state.css';
 
 export function Loading({ label }: { label: string }): JSX.Element {
@@ -34,14 +35,20 @@ export function Failure({
   traceId?: string | undefined;
   onRetry?: (() => void) | undefined;
 }): JSX.Element {
+  const { t } = useI18n();
+
   return (
     <div className="state state--failure" role="alert">
       <p className="state__title">{message}</p>
       {code ? <p className="caption figure">{code}</p> : null}
-      {traceId ? <p className="caption figure">Trace {traceId}</p> : null}
+      {traceId ? (
+        <p className="caption figure">
+          {t.trace} {traceId}
+        </p>
+      ) : null}
       {onRetry ? (
         <button type="button" className="state__retry" onClick={onRetry}>
-          Try again
+          {t.retry}
         </button>
       ) : null}
     </div>

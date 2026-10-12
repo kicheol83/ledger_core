@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Empty, Failure, Loading } from '../components/state';
+import { useI18n } from '../i18n';
 import { ApiError, get, post } from '../lib/api';
 import { formatAmount, isNegative, isZero, shortId } from '../lib/money';
 import type { Account, Balance, Reconciliation } from '../lib/types';
@@ -10,6 +11,7 @@ import './Accounts.css';
 const CURRENCIES = ['UZS', 'KRW', 'USD', 'EUR', 'JPY'];
 
 export function Accounts(): JSX.Element {
+  const { t } = useI18n();
   const [params, setParams] = useSearchParams();
   const userId = params.get('userId') ?? '';
 
@@ -37,11 +39,8 @@ export function Accounts(): JSX.Element {
   return (
     <div className="stack">
       <header className="stack">
-        <h1>Accounts</h1>
-        <p className="caption">
-          No balance is stored. Each figure below is the sum of that account&apos;s entries,
-          computed when this page loaded.
-        </p>
+        <h1>{t.navAccounts}</h1>
+        <p className="caption">{t.accountsIntro}</p>
       </header>
 
       <Reconciliations />
@@ -60,7 +59,7 @@ export function Accounts(): JSX.Element {
               onRetry={reload}
             />
           ) : accounts.loading ? (
-            <Loading label="Reading accounts…" />
+            <Loading label={t.accountsLoading} />
           ) : accounts.data && accounts.data.accounts.length > 0 ? (
             <ul className="accounts">
               {accounts.data.accounts.map((account) => (
@@ -73,17 +72,18 @@ export function Accounts(): JSX.Element {
               ))}
             </ul>
           ) : (
-            <Empty title="This person has no accounts yet. Open one above to start." />
+            <Empty title={t.accountsNone} />
           )}
         </>
       ) : (
-        <Empty title="Enter a person's id to see their accounts, or create one." />
+        <Empty title={t.accountsNoPerson} />
       )}
     </div>
   );
 }
 
 function Reconciliations(): JSX.Element {
+  const { t } = useI18n();
   const state = useAsync(
     () =>
       Promise.all(
@@ -95,25 +95,20 @@ function Reconciliations(): JSX.Element {
   );
 
   if (!state.data) {
-    return (
-      <div className="reconciliation reconciliation--pending caption">Checking the ledger…</div>
-    );
+    return <div className="reconciliation reconciliation--pending caption">{t.ledgerChecking}</div>;
   }
 
   const broken = state.data.filter((entry) => !entry.balanced);
 
   return (
     <div className={broken.length > 0 ? 'reconciliation reconciliation--broken' : 'reconciliation'}>
-      <span className="label">Ledger check</span>
+      <span className="label">{t.ledgerCheck}</span>
       {broken.length === 0 ? (
-        <p>
-          Every currency sums to zero across all accounts. Value has been neither created nor
-          destroyed.
-        </p>
+        <p>{t.ledgerBalanced}</p>
       ) : (
         <p role="alert">
-          {broken.map((entry) => `${entry.currency} is out by ${entry.imbalance}`).join('; ')}. Stop
-          and investigate before trusting any figure on this page.
+          {broken.map((entry) => t.ledgerOutBy(entry.currency, entry.imbalance)).join('; ')}.{' '}
+          {t.ledgerBroken}
         </p>
       )}
     </div>
@@ -127,6 +122,7 @@ function UserPicker({
   userId: string;
   onChange: (userId: string) => void;
 }): JSX.Element {
+  const { t } = useI18n();
   const [draft, setDraft] = useState(userId);
   const [email, setEmail] = useState('');
   const [creating, setCreating] = useState(false);
@@ -142,7 +138,7 @@ function UserPicker({
       setDraft(created.id);
       onChange(created.id);
     } catch (caught) {
-      setError(caught instanceof ApiError ? caught.message : 'Could not create the person.');
+      setError(caught instanceof ApiError ? caught.message : t.createPersonFailed);
     } finally {
       setCreating(false);
     }
@@ -152,7 +148,7 @@ function UserPicker({
     <section className="card picker">
       <div className="picker__field">
         <label className="label" htmlFor="userId">
-          Person id
+          {t.personId}
         </label>
         <div className="picker__row">
           <input
@@ -163,7 +159,7 @@ function UserPicker({
             onChange={(event) => setDraft(event.target.value)}
           />
           <button type="button" className="button" onClick={() => onChange(draft.trim())}>
-            Show accounts
+            {t.showAccounts}
           </button>
         </div>
       </div>
@@ -172,7 +168,7 @@ function UserPicker({
 
       <div className="picker__field">
         <label className="label" htmlFor="email">
-          Or add someone new
+          {t.addSomeone}
         </label>
         <div className="picker__row">
           <input
@@ -189,7 +185,7 @@ function UserPicker({
             disabled={creating || email.length === 0}
             onClick={() => void createPerson()}
           >
-            {creating ? 'Adding…' : 'Add person'}
+            {creating ? t.adding : t.addPerson}
           </button>
         </div>
         {error ? <p className="caption picker__error">{error}</p> : null}
@@ -199,6 +195,7 @@ function UserPicker({
 }
 
 function OpenAccount({ userId, onOpened }: { userId: string; onOpened: () => void }): JSX.Element {
+  const { t } = useI18n();
   const [currency, setCurrency] = useState('UZS');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -211,7 +208,7 @@ function OpenAccount({ userId, onOpened }: { userId: string; onOpened: () => voi
       await post<Account>('/accounts', { userId, currency });
       onOpened();
     } catch (caught) {
-      setError(caught instanceof ApiError ? caught.message : 'Could not open the account.');
+      setError(caught instanceof ApiError ? caught.message : t.openAccountFailed);
     } finally {
       setBusy(false);
     }
@@ -220,7 +217,7 @@ function OpenAccount({ userId, onOpened }: { userId: string; onOpened: () => voi
   return (
     <section className="card open-account">
       <label className="label" htmlFor="currency">
-        Open an account
+        {t.openAnAccount}
       </label>
       <div className="picker__row">
         <select
@@ -236,7 +233,7 @@ function OpenAccount({ userId, onOpened }: { userId: string; onOpened: () => voi
           ))}
         </select>
         <button type="button" className="button" disabled={busy} onClick={() => void open()}>
-          {busy ? 'Opening…' : 'Open account'}
+          {busy ? t.opening : t.openAccount}
         </button>
       </div>
       {error ? <p className="caption picker__error">{error}</p> : null}
@@ -251,6 +248,7 @@ function AccountCard({
   account: Account;
   balance: Balance | undefined;
 }): JSX.Element {
+  const { t } = useI18n();
   const amount = balance?.amount ?? '0';
   const negative = isNegative(amount);
 
@@ -258,7 +256,9 @@ function AccountCard({
     <article className="account card">
       <header className="account__header">
         <span className="figure account__id">{shortId(account.id)}</span>
-        <span className={`chip chip--${account.status.toLowerCase()}`}>{account.status}</span>
+        <span className={`chip chip--${account.status.toLowerCase()}`}>
+          {t.accountStatus[account.status]}
+        </span>
       </header>
 
       <p
@@ -273,30 +273,29 @@ function AccountCard({
       <footer className="account__derivation">
         {balance ? (
           balance.entryCount === 0 ? (
-            <span className="caption">No entries yet</span>
+            <span className="caption">{t.noEntriesYet}</span>
           ) : (
             <span className="caption">
-              Summed from {balance.entryCount} {balance.entryCount === 1 ? 'entry' : 'entries'}
+              {t.summedFrom(balance.entryCount)}
               {balance.asOfEntryId ? (
                 <>
-                  , through entry <span className="figure">{balance.asOfEntryId}</span>
+                  {t.throughEntry}
+                  <span className="figure">{balance.asOfEntryId}</span>
                 </>
               ) : null}
             </span>
           )
         ) : (
-          <span className="caption">Summing…</span>
+          <span className="caption">{t.summing}</span>
         )}
 
         <Link className="account__link" to={`/journal?accountId=${account.id}`}>
-          View entries
+          {t.viewEntries}
         </Link>
       </footer>
 
       {isZero(amount) && balance && balance.entryCount > 0 ? (
-        <p className="caption account__note">
-          Balanced to zero, the entries cancel out rather than being absent.
-        </p>
+        <p className="caption account__note">{t.zeroNote}</p>
       ) : null}
     </article>
   );
