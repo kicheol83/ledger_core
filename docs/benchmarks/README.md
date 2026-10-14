@@ -1,7 +1,7 @@
 # Benchmarks
 
-Absolute figures from one laptop — load generator, API and Postgres sharing
-four cores, no network in between — say nothing about production capacity.
+Absolute figures from one laptop (load generator, API and Postgres sharing
+four cores, no network in between) say nothing about production capacity.
 What these runs are good for is comparison: the same scenario before and
 after one change, under the same conditions. Read every number below in that
 light.
@@ -48,7 +48,7 @@ PostgreSQL 16.15, Node 25.0.0, k6 2.2.0. Details per run in `environment.txt`.
 
 ## Reference run
 
-`20261009-1942-full-warn-log` — final code, `LOG_LEVEL=warn`, 12/12 valid runs.
+`20261009-1942-full-warn-log`: final code, `LOG_LEVEL=warn`, 12/12 valid runs.
 
 | Scenario                                   | rps   | transfer p95 | transfer p99 | notes                                           |
 | ------------------------------------------ | ----- | ------------ | ------------ | ----------------------------------------------- |
@@ -78,7 +78,7 @@ Faults 0, deadlocks 0, ledger balanced after every run.
 **Balance read in one statement** (`1153` vs `1206`, 100 read iterations/s,
 3 runs each): balance p95 24.9 → 13.4 ms; transfer p95 99.6 vs 104 ms and
 transfers per run ~21.8k vs ~21.1k, within run-to-run noise. The old path ran
-`BEGIN READ ONLY`, an account lookup, the sum and `COMMIT` — four round trips
+`BEGIN READ ONLY`, an account lookup, the sum and `COMMIT`: four round trips
 on a dedicated connection. Under READ COMMITTED each statement takes its own
 snapshot, so the transaction bought no consistency.
 
@@ -86,8 +86,8 @@ snapshot, so the transaction bought no consistency.
 statements on `lock_timeout` at 04:00:52.7 UTC; the API logged the resulting
 409s ten seconds later, next to a burst of 500s within 40 ms.
 With `LOG_LEVEL=warn` (`1315`) the same scenario had no faults, no 409s and
-37% higher throughput. The timeouts did their job — locks were released and
-the ledger stayed balanced — but statement and pool timeouts surfaced as
+37% higher throughput. The timeouts did their job: locks were released and
+the ledger stayed balanced. But statement and pool timeouts surfaced as
 `500 INTERNAL_ERROR`; they now return a retryable `503 DATABASE_TIMEOUT`.
 
 **Pool size is not the read bottleneck** (`0846`): doubling the pool moved
@@ -100,5 +100,5 @@ under console logging, so treat it as directional.
   history: 0.42 ms mean at ~240 entries per account, 1.68 ms at ~850.
   [ADR-0002](../adr/0002-no-balance-column.md) deferred balance snapshots
   until measurement showed they were needed; this is that measurement.
-- `assert_transaction_balanced` runs three times per transfer — once per
-  inserted row — and re-checks the whole transaction each time.
+- `assert_transaction_balanced` runs three times per transfer (once per
+  inserted row) and re-checks the whole transaction each time.

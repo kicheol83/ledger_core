@@ -58,7 +58,7 @@ Store all monetary values as `BIGINT` in the currency's minor unit.
 
 In TypeScript, wrap them in a `Money` value object backed by `bigint`, which
 carries its currency and refuses arithmetic between mismatched currencies.
-Serialize to JSON as a string plus a currency code — never as a JSON number,
+Serialize to JSON as a string plus a currency code, never as a JSON number,
 since JSON numbers are IEEE 754 and would undo the guarantee at the API
 boundary:
 
@@ -75,7 +75,7 @@ values.
 Arithmetic is exact everywhere, with no decimal library and no conversion
 layer between database and application.
 
-Aggregation over `ledger_entries` — the hottest query in the system — is
+Aggregation over `ledger_entries`, the hottest query in the system, is
 integer summation, which is what makes deriving balances from entries viable
 at all (see ADR-0002).
 
@@ -90,6 +90,6 @@ This is documented in the API contract and asserted in contract tests.
 
 ## Revisit if
 
-The system needs to record fractional minor units — for example interest
+The system needs to record fractional minor units, for example interest
 accrual at sub-cent precision, or FX rates applied to balances. That would
 require either a scaled integer with a larger exponent or a move to `NUMERIC`.

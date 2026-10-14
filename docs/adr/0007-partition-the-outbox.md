@@ -20,7 +20,7 @@ A partitioned table's primary key must include the partition key, so the key
 becomes `(id, created_at)`. Three tables have foreign keys pointing at
 `transactions.id`: `ledger_entries`, `idempotency_keys`, and `transactions`
 itself through `reverses_id`. A foreign key must reference a unique
-constraint, so each of them would have to carry `created_at` as well —
+constraint, so each of them would have to carry `created_at` as well,
 including `reverses_id`, which would need the _original's_ timestamp
 denormalised into every reversal.
 
@@ -30,7 +30,7 @@ include the partition key. Two reversals of the same transaction landing in
 different months would both succeed. That is a double refund, and it is
 exactly the failure ADR-0005 exists to prevent.
 
-The benefit would have been dropping old partitions for retention — but this
+The benefit would have been dropping old partitions for retention, but this
 table is never purged. Financial records are kept.
 
 ## Why not `ledger_entries`
@@ -45,8 +45,8 @@ index-only scans plus an append. Partitioning would make the hottest query in
 the system slower, in exchange for retention behaviour on a table that is
 never purged.
 
-Hash partitioning on `account_id` would preserve the balance query — one
-partition per lookup — and is the shape to reach for if this table ever needs
+Hash partitioning on `account_id` would preserve the balance query (one
+partition per lookup) and is the shape to reach for if this table ever needs
 splitting. It gives no retention benefit, so it is worth doing only when a
 single table's size becomes the problem. It is not, at any volume this system
 has been measured at.
@@ -58,7 +58,7 @@ Every argument that fails for the other two holds here.
 It is purged: published events are deleted after a retention window. With a
 plain table that is a bulk `DELETE`, which writes WAL for every row, leaves
 dead tuples for autovacuum, and bloats the table and its indexes. With
-monthly partitions it is `DROP TABLE` on a whole month — near-instant,
+monthly partitions it is `DROP TABLE` on a whole month: near-instant,
 minimal WAL, no bloat.
 
 Its queries carry the partition key implicitly. The worker reads
@@ -77,7 +77,7 @@ deleted, which is precisely the pattern that punishes a plain table.
 Partition `outbox_events` by `RANGE (created_at)`, monthly.
 
 A `DEFAULT` partition catches rows outside any defined range, so a missed
-maintenance run degrades to slower queries rather than failed inserts —
+maintenance run degrades to slower queries rather than failed inserts:
 losing an event because no partition exists would be losing a notification
 about money.
 
@@ -108,7 +108,7 @@ the important queries fast rather than the table size.
 ## Revisit if
 
 `ledger_entries` grows past roughly a hundred million rows and index
-maintenance becomes the bottleneck — the answer then is hash partitioning on
+maintenance becomes the bottleneck; the answer then is hash partitioning on
 `account_id`, not range partitioning on time.
 
 Or if a regulatory retention limit is introduced for `transactions`, which

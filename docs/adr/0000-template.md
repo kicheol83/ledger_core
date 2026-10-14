@@ -25,7 +25,7 @@ What was chosen, stated plainly.
 ## Consequences
 
 What this makes easy, what it makes hard, and what has to be accepted as a
-cost. Be honest here — an ADR with no downsides listed is an advertisement,
+cost. Be honest here: an ADR with no downsides listed is an advertisement,
 not a decision record.
 
 ## Revisit if

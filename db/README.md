@@ -9,7 +9,7 @@ the API package would misrepresent that.
 
 ```bash
 pnpm migrate           # apply pending migrations to the dev database
-pnpm migrate:status    # dry run — show what would be applied
+pnpm migrate:status    # dry run, show what would be applied
 pnpm migrate:down      # roll back exactly one migration
 pnpm migrate:redo      # roll back one and reapply (verifies reversibility)
 pnpm migrate:create X  # scaffold a new migration file
@@ -21,7 +21,7 @@ pnpm db:reset          # destroy volumes, recreate, migrate from scratch
 
 **Plain SQL only.** Migrations are run with `-j sql`, so each file is SQL, not
 a JavaScript DSL. The schema depends on deferred constraint triggers,
-partitioning and `plpgsql` functions — none of which a migration generator
+partitioning and `plpgsql` functions, none of which a migration generator
 produces correctly. Writing the SQL directly means the file is exactly what
 runs.
 
@@ -31,7 +31,7 @@ review; a migration that cannot be reversed needs an explicit comment saying
 why.
 
 **Migrations are immutable once merged.** A merged migration has run in CI and
-possibly elsewhere. Changing it means environments silently diverge — the
+possibly elsewhere. Changing it means environments silently diverge: the
 applied-migrations table records it as done and the new content never runs.
 Corrections are new migrations.
 
@@ -42,7 +42,7 @@ one release, switch the code, drop the old column in a later release.
 
 **No data mutations in schema migrations.** Backfills belong in separate,
 explicitly named migrations so a schema rollback does not silently revert
-business data — and so a long-running backfill can be reviewed for how long it
+business data, and so a long-running backfill can be reviewed for how long it
 holds locks.
 
 ## Lock awareness
@@ -58,12 +58,12 @@ following are metadata-only and safe:
 
 These are not, and need care on a populated table:
 
-- `ADD COLUMN ... DEFAULT <volatile expression>` — full rewrite
-- changing a column type — full rewrite
-- `ADD CONSTRAINT ... CHECK` — full scan unless added `NOT VALID` first, then
+- `ADD COLUMN ... DEFAULT <volatile expression>`: full rewrite
+- changing a column type: full rewrite
+- `ADD CONSTRAINT ... CHECK`: full scan unless added `NOT VALID` first, then
   validated in a second statement
-- `ADD FOREIGN KEY` — same; use `NOT VALID` then `VALIDATE CONSTRAINT`
-- `CREATE INDEX` — blocks writes; use `CREATE INDEX CONCURRENTLY`, which
+- `ADD FOREIGN KEY`: same; use `NOT VALID` then `VALIDATE CONSTRAINT`
+- `CREATE INDEX`: blocks writes; use `CREATE INDEX CONCURRENTLY`, which
   cannot run inside a transaction block
 
 Migrations run inside a transaction by default. For statements that cannot

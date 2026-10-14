@@ -11,7 +11,7 @@ A double-entry ledger built on PostgreSQL, with the correctness properties
 enforced where they cannot be bypassed.
 
 The system does one thing: it records money moving between accounts. Its only
-real requirement is that it is never wrong — no money is created, none
+real requirement is that it is never wrong: no money is created, none
 disappears, and no transfer is applied twice, including when requests arrive
 at the same instant, when a client retries, and when a process dies
 mid-flight.
@@ -33,7 +33,7 @@ flowchart TB
         EXT["External callers<br/>Idempotency-Key required"]
     end
 
-    subgraph api["API process — apps/api"]
+    subgraph api["API process: apps/api"]
         MW["Request middleware<br/>request id, structured logs"]
         IDEM["Idempotency interceptor<br/>opens the transaction"]
         subgraph modules["Modules"]
@@ -44,7 +44,7 @@ flowchart TB
         TXM["TransactionManager<br/>AsyncLocalStorage + retry"]
     end
 
-    subgraph worker["Worker process — same codebase"]
+    subgraph worker["Worker process: same codebase"]
         POLL["Lease due events<br/>FOR UPDATE SKIP LOCKED"]
         PUB["Webhook publisher<br/>HMAC signed, timeout, backoff"]
     end
@@ -108,8 +108,8 @@ deferred triggers fire, is in
 
 **Balances are not stored.** There is no `balance` column. Every figure is
 summed from an immutable entry log, which means there is exactly one source of
-truth and no possibility of drift. The trade — reads cost an aggregation
-instead of a lookup — is bounded by a covering index, and an integration test
+truth and no possibility of drift. The trade (reads cost an aggregation
+instead of a lookup) is bounded by a covering index, and an integration test
 asserts the query plan is still an index-only scan.
 [ADR-0002](docs/adr/0002-no-balance-column.md)
 
@@ -123,8 +123,8 @@ physically cannot write an unbalanced transaction.
 **Transfers serialise with ordered row locks, not `SERIALIZABLE`.** Locks are
 taken on account rows in ascending id order, which is what prevents the
 classic A→B / B→A deadlock. The comparison against Serializable Snapshot
-Isolation — and why optimistic concurrency is the wrong trade on a hot account
-— is written down rather than assumed.
+Isolation, and why optimistic concurrency is the wrong trade on a hot account
+is written down rather than assumed.
 [ADR-0006](docs/adr/0006-locking-strategy.md)
 
 **Idempotency is atomic with the write it guards.** The key and the ledger
@@ -139,7 +139,7 @@ unfixable ordering problem.
 
 **Money never touches a float.** Amounts are `BIGINT` minor units, wrapped in
 a `bigint`-backed value object, serialised as strings at every boundary
-including JSON — because a JSON number is IEEE 754 and would corrupt large
+including JSON, because a JSON number is IEEE 754 and would corrupt large
 amounts silently. Even the browser's formatting code works in strings.
 [ADR-0001](docs/adr/0001-monetary-values-as-bigint.md)
 
@@ -163,7 +163,7 @@ pnpm --filter @ledgercore/web dev                # console  :5173
 Requires Node 20+, pnpm 9+, and Docker.
 
 The console opens on Accounts. Add a person, open an account, deposit into it,
-then move money — the Journal shows both sides of every movement and Delivery
+then move money. The Journal shows both sides of every movement and Delivery
 shows the events draining.
 
 ### The demonstration worth trying
@@ -190,7 +190,7 @@ load-tests/   k6 scenarios
 Inside `apps/api`, each module is split by layer:
 
 ```
-domain/          pure logic — no framework, no database, no I/O
+domain/          pure logic, no framework, no database, no I/O
 application/     use cases; owns transaction boundaries
 infrastructure/  SQL and external clients
 api/             HTTP controllers and schemas
@@ -215,8 +215,8 @@ pnpm --filter @ledgercore/api test:concurrency   # real parallel connections
 ```
 
 Three layers, all run in CI against a real PostgreSQL 16 service. There are no
-database mocks: every guarantee this system makes is a database behaviour —
-deferred triggers, row locks, isolation levels, `SKIP LOCKED` — and a mock
+database mocks: every guarantee this system makes is a database behaviour
+(deferred triggers, row locks, isolation levels, `SKIP LOCKED`), and a mock
 would verify none of it.
 
 The concurrency suite is the one worth reading. It races real requests against
@@ -245,7 +245,7 @@ make load-idempotency   # concurrent retries of the same request
 make load-mixed         # reads and writes together
 ```
 
-Each scenario answers one question, and each ends by checking reconciliation —
+Each scenario answers one question, and each ends by checking reconciliation:
 throughput numbers mean nothing if the ledger stopped balancing.
 
 Metrics are split by outcome rather than lumped into an error rate. A 422 for
@@ -261,7 +261,7 @@ make slow    # slowest statements by total time
 ```
 
 Running `make locks` during `load-hot` shows the queue forming on the source
-account row — the design working, made visible.
+account row: the design working, made visible.
 
 These run on one machine with no network in between, so the absolute numbers
 say nothing about production capacity. What they establish is the shape:
@@ -382,8 +382,8 @@ finish successfully.
 ## Notes
 
 `pnpm db:reset` destroys the volumes and rebuilds from migrations. Local
-Postgres is configured to be deliberately loud — `log_statement=all`,
-`log_lock_waits=on`, a 200 ms `deadlock_timeout` — so lock contention is
+Postgres is configured to be deliberately loud (`log_statement=all`,
+`log_lock_waits=on`, a 200 ms `deadlock_timeout`), so lock contention is
 visible during development instead of silent. Those settings are development
 only and `docker/postgres/postgresql.dev.conf` says so.
 

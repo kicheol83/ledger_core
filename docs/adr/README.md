@@ -2,7 +2,7 @@
 
 Each record captures one decision: the constraints at the time, the options
 considered, what was chosen, and what it costs. Records are immutable once
-merged — a decision that changes gets a new record that supersedes the old one.
+merged: a decision that changes gets a new record that supersedes the old one.
 
 | #                                            | Decision                                         | Status   |
 | -------------------------------------------- | ------------------------------------------------ | -------- |

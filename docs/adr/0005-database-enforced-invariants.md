@@ -14,7 +14,7 @@ Four rules define a valid transaction:
 
 None of these can be expressed as a `CHECK` constraint. A `CHECK` sees a
 single row; all four are properties of the _set_ of entries belonging to a
-transaction — and that set does not exist until the final `INSERT` has run.
+transaction, and that set does not exist until the final `INSERT` has run.
 
 ## Options considered
 
@@ -47,7 +47,7 @@ Two triggers are registered, both calling one validation function:
 
 - on `ledger_entries`, covering entries written after the transaction row;
 - on `transactions`, covering a transaction row committed with no entries at
-  all — which the first trigger would never see.
+  all, which the first trigger would never see.
 
 Reversal consistency (amount and currency match the original, the original is
 `COMPLETED`, a reversal cannot itself be reversed) is checked in an
@@ -80,7 +80,7 @@ Business logic now lives partly in `plpgsql`. This is a real cost: it is
 harder to test in isolation than TypeScript, it is invisible to developers
 reading only the application code, and it can only change through a migration.
 The mitigation is that the rules encoded there are few, stable, and definitional
-rather than policy — they are what a ledger _is_, not how this product behaves
+rather than policy: they are what a ledger _is_, not how this product behaves
 this quarter.
 
 ## Revisit if

@@ -18,24 +18,24 @@ make load-mixed
 
 ## What each one measures
 
-**`baseline-transfers.js`** — the cost of a transfer with contention removed.
+**`baseline-transfers.js`**: the cost of a transfer with contention removed.
 Every VU owns its own pair of accounts, so no two transfers touch the same
 row. This is the floor: the transaction, the row locks, the balance
 derivation and the deferred trigger, and nothing else. Every other number is
 read against this one.
 
-**`hot-account.js`** — every VU transferring out of the same account. This is
+**`hot-account.js`**: every VU transferring out of the same account. This is
 the case ADR-0006 exists for. Latency should rise with concurrency, because
 transfers are queueing on the row lock, and throughput should plateau rather
 than collapse. Zero deadlocks: a `40P01` here would mean the ascending-id
 lock ordering is not doing its job.
 
-**`idempotency-storm.js`** — the same request sent three times over,
+**`idempotency-storm.js`**: the same request sent three times over,
 concurrently, thirty VUs deep. Reproduces a gateway timing out and retrying
 while the original is in flight. The assertion is not latency but the final
 balance: money moved once per key, not once per request.
 
-**`mixed-workload.js`** — reads and writes together in roughly the ratio a
+**`mixed-workload.js`**: reads and writes together in roughly the ratio a
 payments API sees. The check is that balance reads stay fast while writes
 hold row locks; if read latency tracks write load, something is blocking the
 balance query that should not be.
@@ -44,12 +44,12 @@ balance query that should not be.
 
 The custom metrics separate outcomes that a single error rate would conflate:
 
-| Metric                     | Meaning                                                           |
-| -------------------------- | ----------------------------------------------------------------- |
-| `ledger_succeeded`         | 2xx — the operation happened                                      |
-| `ledger_rejected_business` | 422/404 — correctly refused (insufficient funds, unknown account) |
-| `ledger_contention`        | 409 — lock timeout or concurrency conflict                        |
-| `ledger_faults`            | 5xx or transport failure — the only real errors                   |
+| Metric                     | Meaning                                                          |
+| -------------------------- | ---------------------------------------------------------------- |
+| `ledger_succeeded`         | 2xx: the operation happened                                      |
+| `ledger_rejected_business` | 422/404: correctly refused (insufficient funds, unknown account) |
+| `ledger_contention`        | 409: lock timeout or concurrency conflict                        |
+| `ledger_faults`            | 5xx or transport failure: the only real errors                   |
 
 A contention run showing thousands of `rejected_business` is working
 correctly. The same count under `faults` is a defect. This is why the
@@ -68,7 +68,7 @@ make slow     # slowest statements by total time
 ```
 
 `make locks` during `hot-account.js` shows the queue on the source account
-row — the design working, made visible.
+row: the design working, made visible.
 
 ## Capturing a run for the README
 

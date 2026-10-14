@@ -13,7 +13,7 @@ That design has a specific, well-known failure mode. `UPDATE accounts SET
 balance = balance - 100` is atomic per statement, but the _decision_ to run it
 was made from an earlier read. Under `READ COMMITTED`, two concurrent
 transfers can both read a balance of 100, both conclude the withdrawal is
-allowed, and both apply it — the account ends at -100 with no constraint
+allowed, and both apply it: the account ends at -100 with no constraint
 violated. A `CHECK (balance >= 0)` catches this particular case, but the same
 race applies to any rule that reads before writing.
 
@@ -25,7 +25,7 @@ one is right.
 
 ### Stored balance column, updated in the same transaction
 
-Fast reads — one indexed lookup. Requires locking the account row before the
+Fast reads: one indexed lookup. Requires locking the account row before the
 read-modify-write to be safe, which is manageable.
 
 The disqualifying issue is not performance, it is reconciliation. Any bug, any
@@ -58,7 +58,7 @@ The initial implementation aggregates directly. A covering index on
 index-only.
 
 Snapshots are deferred until measurement shows they are needed, and will be
-introduced as a rebuildable cache — never as an authoritative value.
+introduced as a rebuildable cache, never as an authoritative value.
 
 ## Consequences
 

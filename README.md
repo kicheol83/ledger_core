@@ -26,7 +26,7 @@ flowchart TB
         EXT["External callers<br/>Idempotency-Key required"]
     end
 
-    subgraph api["API process — apps/api"]
+    subgraph api["API process: apps/api"]
         MW["Request middleware<br/>request id, structured logs"]
         IDEM["Idempotency interceptor<br/>opens the transaction"]
         subgraph modules["Modules"]
@@ -37,7 +37,7 @@ flowchart TB
         TXM["TransactionManager<br/>AsyncLocalStorage + retry"]
     end
 
-    subgraph worker["Worker process — same codebase"]
+    subgraph worker["Worker process: same codebase"]
         POLL["Lease due events<br/>FOR UPDATE SKIP LOCKED"]
         PUB["Webhook publisher<br/>HMAC signed, timeout, backoff"]
     end

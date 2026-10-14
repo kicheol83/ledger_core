@@ -12,7 +12,7 @@ modules inside one deployable.
 The decisive constraint is that a transfer must be atomic across the ledger
 entries _and_ the outbox event. If those live in different services with
 different databases, atomicity is gone and the only remaining options are
-distributed transactions or a saga — both of which introduce failure modes far
+distributed transactions or a saga, both of which introduce failure modes far
 worse than the coupling they remove.
 
 ## Options considered
@@ -48,7 +48,7 @@ through the owning module's application service.
 Within each module:
 
 ```
-domain/          pure logic and types — no NestJS, no pg imports
+domain/          pure logic and types, no NestJS, no pg imports
 application/     use cases; owns transaction boundaries
 infrastructure/  SQL and external clients
 api/             HTTP controllers, DTOs, validation
@@ -69,7 +69,7 @@ transaction boundary.
 ## Consequences
 
 A transfer and its outbox event commit atomically in one database
-transaction — the property the whole design depends on.
+transaction, the property the whole design depends on.
 
 Local development and testing need one process and one database. Concurrency
 tests can drive real parallel connections without orchestrating services.
@@ -81,11 +81,11 @@ without an archaeology exercise first.
 The costs: the whole application deploys as a unit, so an unrelated change
 redeploys the ledger. Modules cannot be scaled independently, except the
 worker. And boundaries are conventions plus lint rules, not physical
-separation — discipline is required, and a determined shortcut is one import
+separation: discipline is required, and a determined shortcut is one import
 away.
 
 ## Revisit if
 
 A module develops a genuinely different scaling profile or availability
-requirement — for example a reporting module whose heavy reads interfere with
+requirement, for example a reporting module whose heavy reads interfere with
 transfer latency. The first response is a read replica, not a service split.

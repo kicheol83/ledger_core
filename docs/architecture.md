@@ -4,7 +4,7 @@
 
 LedgerCore records movements of money between accounts. Its only real
 requirement is that it is never wrong: no money is created, none disappears,
-and no transfer is applied twice — including when requests arrive
+and no transfer is applied twice, including when requests arrive
 concurrently, when the client retries, and when a process dies mid-flight.
 
 Everything below follows from that requirement.
@@ -26,7 +26,7 @@ transaction: TRANSFER 10,000 UZS
                     net effect:     0
 ```
 
-A balance is therefore not stored — it is derived:
+A balance is therefore not stored; it is derived:
 
 ```sql
 SELECT SUM(CASE WHEN direction = 'CREDIT' THEN amount ELSE -amount END)
@@ -58,13 +58,13 @@ The invariants are enforced by PostgreSQL, not by application code.
 | Amounts are positive integers                      | `CHECK` constraints               |
 | An idempotency key maps to at most one transaction | Primary key                       |
 
-Application-level validation can be bypassed — by a second service, a
+Application-level validation can be bypassed by a second service, a
 migration script, a developer in `psql`, or a bug. A constraint in the
 database cannot. The trade-off is that some business rules live in SQL rather
 than TypeScript; for a ledger that is the correct side to err on.
 
 The balance check (does the sender have enough money?) is deliberately _not_
-in this table. It is not a static invariant — it depends on a point-in-time
+in this table. It is not a static invariant; it depends on a point-in-time
 read and must be evaluated under a lock. That belongs in the application
 transaction, described below.
 
@@ -130,7 +130,7 @@ api/             HTTP controllers, DTOs, validation
 ```
 
 The `domain` layer has no imports from NestJS or `pg`. This is what makes the
-interesting rules testable without a database — and it is also the boundary
+interesting rules testable without a database, and it is also the boundary
 that would let the ledger module become a separate service later, if it ever
 needed to.
 
@@ -148,7 +148,7 @@ Compose files but is not used by the application yet.
 
 Data access is raw SQL through `pg`, not an ORM. The system depends on
 `SELECT ... FOR UPDATE`, `DEFERRABLE INITIALLY DEFERRED`, `FOR UPDATE SKIP
-LOCKED`, explicit isolation levels and `ON CONFLICT` semantics — the parts
+LOCKED`, explicit isolation levels and `ON CONFLICT` semantics: the parts
 ORMs abstract away or generate unpredictably. See
 [ADR-0003](adr/0003-raw-sql-over-orm.md).
 
@@ -159,7 +159,7 @@ See [ADR-0001](adr/0001-monetary-values-as-bigint.md).
 
 Three layers, all run in CI:
 
-Unit tests cover pure domain logic — the `Money` type, entry construction,
+Unit tests cover pure domain logic: the `Money` type, entry construction,
 reversal rules. Fast, no database.
 
 Integration tests run against a real PostgreSQL instance and verify that the
@@ -174,7 +174,7 @@ cannot be written against a mock.
 ## What is deliberately out of scope
 
 Multi-currency conversion, interest accrual, and scheduled transfers are not
-implemented — they add surface area without exercising anything new about
+implemented: they add surface area without exercising anything new about
 correctness under concurrency.
 
 There is no authentication beyond a stub. The interesting problems here are
